@@ -315,7 +315,6 @@ class _BottomNavigationBarState extends State<BubbleBottomBar>
         BubbleBottomBarItem _nextItem = widget.items[widget.currentIndex];
 
         widget.items[0] = _nextItem;
-        widget.items[widget.currentIndex] = _currentItem;
         _controllers[oldWidget.currentIndex].reverse();
         _controllers[widget.currentIndex].forward();
         widget.currentIndex = 0;
@@ -333,24 +332,26 @@ class _BottomNavigationBarState extends State<BubbleBottomBar>
     assert(localizations != null);
     final List<Widget> children = <Widget>[];
     for (int i = 0; i < widget.items.length; i += 1) {
-      children.add(
-        _BottomNavigationTile(
-          widget.items[i],
-          widget.opacity,
-          _animations[i],
-          widget.iconSize,
-          onTap: () {
-            print(i);
-            if (widget.onTap != null) widget.onTap(i,widget.items[i].title);
-          },
-          flex: _evaluateFlex(_animations[i]),
-          selected: i == widget.currentIndex,
-          indexLabel: localizations.tabLabel(
-              tabIndex: i + 1, tabCount: widget.items.length),
-          ink: widget.hasInk,
-          inkColor: widget.inkColor,
-        ),
-      );
+      if (i != 1) {
+        children.add(
+          _BottomNavigationTile(
+            widget.items[i],
+            widget.opacity,
+            _animations[i],
+            widget.iconSize,
+            onTap: () {
+              print(i);
+              if (widget.onTap != null) widget.onTap(i, widget.items[i].title);
+            },
+            flex: _evaluateFlex(_animations[i]),
+            selected: i == widget.currentIndex,
+            indexLabel: localizations.tabLabel(
+                tabIndex: i + 1, tabCount: widget.items.length),
+            ink: widget.hasInk,
+            inkColor: widget.inkColor,
+          ),
+        );
+      }
     }
     if (widget.fabLocation == BubbleBottomBarFabLocation.center) {
       children.insert(

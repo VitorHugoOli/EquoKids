@@ -15,6 +15,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Color(0xff1CA6A6),
+        appBarTheme: AppBarTheme(
+          color: Color(0x000000FF),
+        ),
+
         scaffoldBackgroundColor: Color(0xFFCEF6F5),
         fontFamily: 'Comfortaa',
 

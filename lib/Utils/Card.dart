@@ -27,7 +27,7 @@ class GenericCard extends StatelessWidget {
           children: <Widget>[
             Container(
               height: size.height * 0.2,
-              width: size.width ,
+              width: size.width,
               margin: EdgeInsets.all(16),
               decoration: new BoxDecoration(
                   borderRadius: new BorderRadius.only(
@@ -44,8 +44,21 @@ class GenericCard extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 16, right: 16, bottom: 8),
               child: ListTile(
-                title: Text(title),
-                subtitle: Text(subtitle),
+                title: Text(
+                  title,
+                  style: TextStyle(
+                      color: Color(0xff1CA1AD),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 19),
+                ),
+                subtitle: Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: Color(0xff105A61),
+                    fontFamily: "Raleway",
+                    fontSize: 14,
+                  ),
+                ),
               ),
             ),
           ],

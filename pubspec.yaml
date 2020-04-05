@@ -41,7 +41,11 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+    - fonts/
   fonts:
+    - family:  HatCowBoy
+      fonts:
+        - asset: fonts/HatCowBoy.ttf
     - family: Comfortaa
       fonts:
         - asset: fonts/Comfortaa/static/Comfortaa-Bold.ttf
