@@ -22,64 +22,72 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   static List<BubbleBottomBarItem> itens = <BubbleBottomBarItem>[
     BubbleBottomBarItem(
-      showBadge: true,
-      badge: Text("5"),
-      badgeColor: Colors.deepPurpleAccent,
-      backgroundColor: Colors.red,
+//      showBadge: true,
+//      badge: Text("5"),
+//      badgeColor: Colors.deepPurpleAccent,
+      backgroundColor: Color(0xFFD98859),
       icon: Icon(
-        Icons.dashboard,
-        color: Colors.black,
+        FontAwesomeIcons.hatCowboySide,
+        color: Color(0xFF1CA6A6),
       ),
       activeIcon: Icon(
-        Icons.dashboard,
-        color: Colors.red,
+        FontAwesomeIcons.hatCowboySide,
+        color: Color(0xFFD98859),
       ),
-      title: Text("Home"),
+      title: Text("Equinoterapia"),
     ),
     BubbleBottomBarItem(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFFD98859),
         icon: Icon(
-          Icons.access_time,
-          color: Colors.black,
+          FontAwesomeIcons.solidCommentDots,
+          color: Color(0xFF1CA6A6),
         ),
         activeIcon: Icon(
-          Icons.access_time,
-          color: Colors.deepPurple,
+          FontAwesomeIcons.commentDots,
+          color: Color(0xFFD98859),
         ),
-        title: Text("Logs")),
+        title: Text("Historias")),
     BubbleBottomBarItem(
-        backgroundColor: Colors.indigo,
+        backgroundColor: Color(0xFFD98859),
         icon: Icon(
-          Icons.folder_open,
-          color: Colors.black,
+          FontAwesomeIcons.solidCalendarAlt,
+          color: Color(0xFF1CA6A6),
         ),
         activeIcon: Icon(
-          Icons.folder_open,
-          color: Colors.indigo,
+          FontAwesomeIcons.calendarAlt,
+          color: Color(0xFFD98859),
         ),
-        title: Text("Folders")),
+        title: Text("Calendarios")),
     BubbleBottomBarItem(
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFFD98859),
         icon: Icon(
-          Icons.menu,
-          color: Colors.black,
+          FontAwesomeIcons.chartLine,
+          color: Color(0xFF1CA6A6),
         ),
         activeIcon: Icon(
-          Icons.menu,
-          color: Colors.green,
+          FontAwesomeIcons.chartLine,
+          color: Color(0xFFD98859),
         ),
-        title: Text("Menu"))
+        title: Text("Evolução"))
   ];
 
-  void changePage(int index) {
+  void changePage(int i, title) {
+    int index;
+    for (int i = 0; i < itens.length; i++) {
+      if (itens[i].title == title) index = i;
+    }
+    print(title);
+    print(index);
     setState(() {
-      currentIndex = index;
+      currentIndex = i;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
 
     return Scaffold(
       appBar: AppBar(
@@ -87,7 +95,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         title: Center(
           child: Image(
             image: AssetImage("assets/equokids1.png"),
-            width: size.width*0.4,
+            width: size.width * 0.4,
             fit: BoxFit.fill,
           ),
         ),
@@ -96,33 +104,60 @@ class _BottomNavigationState extends State<BottomNavigation> {
             bottom: Radius.circular(35),
           ),
         ),
-
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             GenericCard(
-              title: "QUal o Objetivo do EquoKids?",
-              subtitle: "é msm",
+              title: "Qual o Objetivo do EquoKids?\n",
+              subtitle: "O EquoKids é um aplicativo que tem como tema inicial a Equoterapia - método terapêutico e educacional que utiliza o cavalo como meio de aprendizagem.\n\n"+
+              "Objetivos: \n" +
+                  "-Fazer com que os responsáveis tenham um fácil acesso ao desenvovimento de suas crianças e que também exponham a sua visão.\n" +
+                  "-Troca de experinêcias com outros responsáveis.\n" +
+                  "-Acesso a agenda do auluno (horário e data das aulas).\n",
+              image: "assets/question1.jpg",
+            ),
+            GenericCard(
+              title: "O que é equoterapia?",
+              subtitle: "Realmente é",
+              image: "assets/question2.jpg",
             ),
             GenericCard(
               title: "Caleb sou eu 2",
               subtitle: "Realmente é",
-            ),GenericCard(
-              title: "Caleb sou eu 2",
-              subtitle: "Realmente é",
-            ),GenericCard(
+              image: "assets/question3.jpg",
+            ),
+            GenericCard(
               title: "Josue sou eu 2",
               subtitle: "Realmente é talvez",
+              image: "assets/question4.jpg",
             ),
-            
+            GenericCard(
+              title: "Josue sou eu 2",
+              subtitle: "Realmente é talvez",
+              image: "assets/question5.jpg",
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
-        backgroundColor: Colors.red,
+        onPressed: () {
+          int index = 0;
+          for (int i = 0; i < itens.length; i++) {
+            if (itens[i].title.toString() == Text("Equinoterapia").toString())
+              index = i;
+          }
+          print(index);
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        child: Icon(
+          FontAwesomeIcons.hatCowboySide,
+          color: Colors.white,
+          size: 25,
+        ),
+        backgroundColor: Color(0xFFD98859),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BubbleBottomBar(

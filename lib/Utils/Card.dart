@@ -11,8 +11,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class GenericCard extends StatelessWidget {
   String title;
   String subtitle;
+  String image;
 
-  GenericCard({this.title, this.subtitle});
+  GenericCard({this.title, this.subtitle, this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class GenericCard extends StatelessWidget {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
-                    image: AssetImage("assets/horse1.jpg"),
+                    image: AssetImage(image),
                     fit: BoxFit.cover,
                   )),
             ),

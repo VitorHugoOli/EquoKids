@@ -37,7 +37,7 @@ class BubbleBottomBar extends StatefulWidget {
         super(key: key);
 
   final List<BubbleBottomBarItem> items;
-  final ValueChanged<int> onTap;
+  final onTap;
   int currentIndex;
   final double iconSize;
   final double opacity;
@@ -340,15 +340,8 @@ class _BottomNavigationBarState extends State<BubbleBottomBar>
           _animations[i],
           widget.iconSize,
           onTap: () {
-            var index = 0;
-            for (int j = 0; j < widget.items.length; j++) {
-              if (widget.items[i] == widget.items[j]) {
-                index = j;
-              }
-            }
-            print(index);
             print(i);
-            if (widget.onTap != null) widget.onTap(i);
+            if (widget.onTap != null) widget.onTap(i,widget.items[i].title);
           },
           flex: _evaluateFlex(_animations[i]),
           selected: i == widget.currentIndex,

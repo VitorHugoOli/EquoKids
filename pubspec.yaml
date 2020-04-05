@@ -40,12 +40,21 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - assets/horse1.jpg
-    - assets/equokids1.png
+    - assets/
   fonts:
-    - family: Gotu
+    - family: Comfortaa
       fonts:
-        - asset: fonts/Gotu/Gotu-Regular.ttf
+        - asset: fonts/Comfortaa/static/Comfortaa-Bold.ttf
+        - asset: fonts/Comfortaa/static/Comfortaa-SemiBold.ttf
+        - asset: fonts/Comfortaa/static/Comfortaa-Medium.ttf
+        - asset: fonts/Comfortaa/static/Comfortaa-Regular.ttf
+
+    - family: Raleway
+      fonts:
+        - asset: fonts/Raleway/Raleway-Regular.ttf
+        - asset: fonts/Raleway/Raleway-Medium.ttf
+        - asset: fonts/Raleway/Raleway-Bold.ttf
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

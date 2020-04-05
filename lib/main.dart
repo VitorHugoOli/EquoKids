@@ -14,8 +14,10 @@ class MyApp extends StatelessWidget {
       title: 'EquinoKids',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xff323232),
-        fontFamily: 'Gotu'
+        primaryColor: Color(0xff1CA6A6),
+        scaffoldBackgroundColor: Color(0xFFCEF6F5),
+        fontFamily: 'Comfortaa',
+
       ),
       routes: <String, WidgetBuilder>{
         "/": (BuildContext context) => new BottomNavigation(),
