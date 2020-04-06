@@ -49,7 +49,7 @@ class GenericCard extends StatelessWidget {
                   style: TextStyle(
                       color: Color(0xff1CA1AD),
                       fontWeight: FontWeight.bold,
-                      fontSize: 19),
+                      fontSize: 1),
                 ),
                 subtitle: Text(
                   subtitle,

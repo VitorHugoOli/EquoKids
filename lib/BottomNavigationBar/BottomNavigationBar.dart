@@ -1,9 +1,12 @@
+import 'package:equokids/Calendar/Calendar.dart';
+import 'package:equokids/EquinoTerapia/Equinoterapia.dart';
 import 'package:equokids/Utils/Card.dart';
 import 'package:equokids/Utils/HatCowBoy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../BuildingPage.dart';
 import 'bubble_bottom_bar.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -13,6 +16,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex;
+  Widget body = Equinoterapia();
 
   @override
   void initState() {
@@ -81,49 +85,20 @@ class _BottomNavigationState extends State<BottomNavigation> {
         title: Text("Evolução"))
   ];
 
-  static List<Widget> cardItems = <Widget>[GenericCard(
-    title: "Qual o Objetivo do EquoKids?\n",
-    subtitle:
-    "O EquoKids é um aplicativo que tem como tema inicial a Equoterapia - método terapêutico e educacional que utiliza o cavalo como meio de aprendizagem.\n\n" +
-        "Objetivos: \n" +
-        "-Fazer com que os responsáveis tenham um fácil acesso ao desenvovimento de suas crianças e que também exponham a sua visão.\n" +
-        "-Troca de experinêcias com outros responsáveis.\n" +
-        "-Acesso a agenda do auluno (horário e data das aulas).\n",
-    image: "assets/question1.jpg",
-  ),
-    GenericCard(
-      title: "O que é equoterapia?",
-      subtitle:
-      "Commodo occaecat deserunt irure officia mollit. Ea proident ipsum est deserunt ipsum minim ipsum dolore quis. Quis sunt non dolore irure ea officia velit nostrud incididunt do cupidatat do eu id. Nostrud tempor labore sunt amet in.",
-      image: "assets/question2.jpg",
-    ),
-    GenericCard(
-      title: "Quais os benefícios?",
-      subtitle:
-      "Commodo occaecat deserunt irure officia mollit. Ea proident ipsum est deserunt ipsum minim ipsum dolore quis. Quis sunt non dolore irure ea officia velit nostrud incididunt do cupidatat do eu id. Nostrud tempor labore sunt amet in.",
-      image: "assets/question3.jpg",
-    ),
-    GenericCard(
-      title: "Pra quem é indicado?",
-      subtitle:
-      "Commodo occaecat deserunt irure officia mollit. Ea proident ipsum est deserunt ipsum minim ipsum dolore quis. Quis sunt non dolore irure ea officia velit nostrud incididunt do cupidatat do eu id. Nostrud tempor labore sunt amet in.",
-      image: "assets/question4.jpg",
-    ),
-    GenericCard(
-      title: "Existem contraindicações?",
-      subtitle:
-      "Commodo occaecat deserunt irure officia mollit. Ea proident ipsum est deserunt ipsum minim ipsum dolore quis. Quis sunt non dolore irure ea officia velit nostrud incididunt do cupidatat do eu id. Nostrud tempor labore sunt amet in.",
-      image: "assets/question5.jpg",
-    )
-  ];
+  static final mapPag = {
+    0: Equinoterapia(),
+    1: BuildPage(pagina: false, Titulopagina: "Construindo"),
+    2: BuildPage(pagina: false, Titulopagina: "Construindo"),
+    3: Calendar(),
+    4: BuildPage(pagina: false, Titulopagina: "Construindo"),
 
-  void changePage(int i, title) {
-    int index;
-    for (int i = 0; i < barItens.length; i++) {
-      if (barItens[i].title == title) index = i;
+  };
+
+  void changePage(int i) {
+    var tempBody = mapPag[i];
+    if (tempBody != null) {
+      body = tempBody;
     }
-    print(title);
-    print(index);
     setState(() {
       currentIndex = i;
     });
@@ -131,9 +106,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
@@ -146,20 +119,15 @@ class _BottomNavigationState extends State<BottomNavigation> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: cardItems
-        ),
-      ),
+      body: body,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           int index = 0;
           for (int i = 0; i < barItens.length; i++) {
             if (barItens[i].title.toString() ==
-                Text("Equinoterapia").toString())
-              index = i;
+                Text("Equinoterapia").toString()) index = i;
           }
-          print(index);
+          body = mapPag[0];
           setState(() {
             currentIndex = index;
           });
