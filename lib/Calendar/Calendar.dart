@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
+    show CalendarCarousel, WeekdayFormat;
+import 'package:flutter_calendar_carousel/classes/event.dart';
 
 class Calendar extends StatefulWidget {
   @override
@@ -10,118 +13,179 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  CalendarController _calendarController = CalendarController();
+  DateTime _currentDate = DateTime.now();
+
+  TextStyle styleDay = TextStyle(
+    color: Color(0xff1CA1AD),
+    fontFamily: "Comfortaa",
+    fontWeight: FontWeight.w900,
+    fontSize: 18,
+  );
+
+  TextStyle styleWeek = TextStyle(
+    color: Color(0xff1CA1AD),
+    fontFamily: "Comfortaa",
+    fontWeight: FontWeight.w900,
+    fontSize: 20,
+  );
+
+  EventList<Event> _markedDateMap = new EventList<Event>(
+    events: {
+      new DateTime(2020, 4, 9): [
+        new Event(
+          date: new DateTime(2020, 4, 12),
+          title: 'Event 1',
+          dot: Container(
+            margin: EdgeInsets.symmetric(horizontal: 1.0),
+            color: Colors.red,
+            height: 5.0,
+            width: 5.0,
+          ),
+        ),
+        new Event(
+          date: new DateTime(2020, 4, 11),
+          title: 'Event 2',
+        ),
+        new Event(
+          date: new DateTime(2020, 4, 10),
+          title: 'Event 3',
+        ),
+      ],
+    },
+  );
 
   @override
   Widget build(BuildContext context) {
-    return TableCalendar(
-      locale: 'pt_BR',
-      calendarController: _calendarController,
-      initialCalendarFormat: CalendarFormat.month,
-      formatAnimation: FormatAnimation.slide,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
-      availableGestures: AvailableGestures.none,
-      rowHeight: 40,
+    _markedDateMap.add(
+        new DateTime(2020, 4, 25),
+        new Event(
+          date: new DateTime(2019, 2, 25),
+          title: 'Event 5',
+        ));
 
-      //disable swipe between days
-      availableCalendarFormats: const {
-        CalendarFormat.month: 'Month',
-      },
-
-      calendarStyle: CalendarStyle(
-        todayStyle: TextStyle(
-          color: Colors.white,
-          fontFamily: "Comfortaa",
-          fontWeight: FontWeight.w900,
-          fontSize: 18,
-        ),
-        weekdayStyle: TextStyle(
-          color: Color(0xff1CA1AD),
-          fontFamily: "Comfortaa",
-          fontWeight: FontWeight.w900,
-          fontSize: 21,
-        ),
-        weekendStyle: TextStyle(
-          color: Color(0xff1CA6A6),
-          fontFamily: "Comfortaa",
-          fontWeight: FontWeight.w900,
-          fontSize: 21,
-        ),
-        outsideStyle: TextStyle(
-          color: Color(0xff63C3CA),
-          fontFamily: "Comfortaa",
-          fontWeight: FontWeight.w900,
-          fontSize: 21,
-        ),
-        unavailableStyle: TextStyle(
-          color: Color(0xff08C503A),
-          fontFamily: "Comfortaa",
-          fontWeight: FontWeight.w900,
-          fontSize: 21,
-        ),
-        outsideWeekendStyle: TextStyle(
-          color: Color(0xff63C3CA),
-          fontFamily: "Comfortaa",
-          fontWeight: FontWeight.w900,
-          fontSize: 21,
-        ),
-      ),
-      daysOfWeekStyle: DaysOfWeekStyle(
-        dowTextBuilder: (date, locale) {
-          var weekName = DateFormat.E(locale).format(date);
-          return weekName.substring(0, 1).toUpperCase() +
-              weekName.substring(1, 3);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
+      //Caledar
+      child: CalendarCarousel<Event>(
+        locale: 'pt_BR',
+        onDayPressed: (DateTime date, List<Event> events) {
+          print(date);
+          setState(() {
+            _currentDate = date;
+          });
         },
-        weekdayStyle: TextStyle(
-          color: Color(0xff1CA1AD),
-          fontFamily: "Raleway",
-          fontWeight: FontWeight.w900,
-          fontSize: 20,
-        ),
-        weekendStyle: TextStyle(
-          color: Color(0xff1CA1AD),
-          fontFamily: "Raleway",
-          fontWeight: FontWeight.w900,
-          fontSize: 20,
-        ),
-      ),
-      headerStyle: HeaderStyle(
-          titleTextBuilder: (date, locale) {
-            var weekName = DateFormat.MMMM(locale).format(date);
-            return weekName.substring(0, 1).toUpperCase() +
-                weekName.substring(1);
-//          weekName.substring(0,1).toUpperCase()+weekName.substring(1)
-          },
-
-          titleTextStyle: TextStyle(
-            color: Color(0xff1CA1AD),
-            fontFamily: "Raleway",
-            fontWeight: FontWeight.w900,
-            fontSize: 30,
-          )),
-      builders: CalendarBuilders(
-        selectedDayBuilder: (context, date, _) {
-          return Container(
-            decoration: new BoxDecoration(
-              color: Color(0xffF3DCCC),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.all(Radius.circular(11.0)),
-            ),
-            margin: const EdgeInsets.all(4.0),
-            width: 50,
-            height: 50,
-            child: Center(
-              child: Text(
-                '${date.day}',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: Color(0xff1CA1AD),
-                  fontWeight: FontWeight.w900,
+        thisMonthDayBorderColor: Colors.blue,
+        selectedDayButtonColor: Colors.transparent,
+        selectedDayBorderColor: Colors.transparent,
+        todayBorderColor: Colors.transparent,
+        todayButtonColor: Colors.transparent,
+        daysTextStyle: styleDay,
+        inactiveDaysTextStyle: styleDay,
+        nextDaysTextStyle: styleDay,
+        prevDaysTextStyle: styleDay,
+        weekdayTextStyle: styleDay,
+        markedDatesMap: _markedDateMap,
+        weekDayFormat: WeekdayFormat.standaloneShort,
+        customWeekDayBuilder: (weekday, weekdayName) {
+          print(weekdayName);
+          return Text(
+              weekdayName.substring(0, 1).toUpperCase() +
+                  weekdayName.substring(1),
+              style: styleDay);
+        },
+        firstDayOfWeek: 0,
+        showHeader: true,
+        headerTitleTouchable: true,
+        showHeaderButton: false,
+        headerMargin: EdgeInsets.only(right: 200.0),
+        isScrollable: true,
+        weekFormat: false,
+        height: 400.0,
+        selectedDateTime: _currentDate,
+        customDayBuilder: (isSelectable, index, isSelectedDay, isToday,
+            isPrevMonthDay, textStyle, isNextMonthDay, isThisMonthDay, day) {
+          if (isNextMonthDay || isPrevMonthDay) {
+            return Container(
+              margin: const EdgeInsets.all(4.0),
+              width: 50,
+              height: 50,
+              child: Center(
+                child: Text(
+                  '${day.day}',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff63C3CA),
+                  ),
                 ),
               ),
-            ),
-          );
+            );
+          }
+
+          if (isSelectedDay) {
+            return Container(
+              decoration: new BoxDecoration(
+                color: Color(0xffF3DCCC),
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.all(Radius.circular(11.0)),
+              ),
+              margin: const EdgeInsets.all(4.0),
+              width: 50,
+              height: 50,
+              child: Center(
+                child: Text(
+                  '${day.day}',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: Color(0xff1CA1AD),
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            );
+          } else if (isToday) {
+            return Container(
+              decoration: new BoxDecoration(
+                color: Color(0xFF1CA1AD),
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.all(Radius.circular(50.0)),
+              ),
+              margin: const EdgeInsets.all(4.0),
+              width: 50,
+              height: 50,
+              child: Center(
+                child: Text(
+                  '${day.day}',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return Container(
+              margin: const EdgeInsets.all(4.0),
+              width: 50,
+              height: 50,
+              child: Center(
+                child: Text(
+                  '${day.day}',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: Color(0xff1CA1AD),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            );
+          }
         },
+        markedDateCustomShapeBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(100.0))),
+        // null for not rendering any border, true for circular border, false for rectangular border
+        customGridViewPhysics: NeverScrollableScrollPhysics(),
       ),
     );
   }

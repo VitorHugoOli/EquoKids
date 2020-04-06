@@ -4,6 +4,7 @@ import 'package:equokids/Utils/Card.dart';
 import 'package:equokids/Utils/HatCowBoy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../BuildingPage.dart';
@@ -17,6 +18,8 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex;
   Widget body = Equinoterapia();
+  String title = "";
+  IconData iconData = FontAwesomeIcons.hatCowboySide;
 
   @override
   void initState() {
@@ -86,18 +89,39 @@ class _BottomNavigationState extends State<BottomNavigation> {
   ];
 
   static final mapPag = {
-    0: Equinoterapia(),
-    1: BuildPage(pagina: false, Titulopagina: "Construindo"),
-    2: BuildPage(pagina: false, Titulopagina: "Construindo"),
-    3: Calendar(),
-    4: BuildPage(pagina: false, Titulopagina: "Construindo"),
-
+    0: {
+      "title": "",
+      "icon": FontAwesomeIcons.hatCowboySide,
+      "body": Equinoterapia()
+    },
+    1: {
+      "title": "Depoimentos",
+      "icon": FontAwesomeIcons.hatCowboySide,
+      "body": BuildPage(pagina: false, Titulopagina: "Construindo")
+    },
+    2: {
+      "title": "Depoimentos",
+      "icon": FontAwesomeIcons.solidCommentDots,
+      "body": BuildPage(pagina: false, Titulopagina: "Construindo")
+    },
+    3: {
+      "title": "Calendário",
+      "icon": FontAwesomeIcons.solidCalendarAlt,
+      "body": Calendar()
+    },
+    4: {
+      "title": "Gráfico",
+      "icon": FontAwesomeIcons.chartLine,
+      "body": BuildPage(pagina: false, Titulopagina: "Construindo")
+    },
   };
 
   void changePage(int i) {
     var tempBody = mapPag[i];
     if (tempBody != null) {
-      body = tempBody;
+      body = tempBody["body"];
+      title = tempBody["title"];
+      iconData = tempBody["icon"];
     }
     setState(() {
       currentIndex = i;
@@ -111,13 +135,18 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFD98859),
-        title: Center(
-          child: Image(
-            image: AssetImage("assets/equokids1.png"),
-            width: size.width * 0.4,
-            fit: BoxFit.fill,
-          ),
-        ),
+        title: title.isEmpty
+            ? Center(
+                child: Image(
+                  image: AssetImage("assets/equokids1.png"),
+                  width: size.width * 0.4,
+                  fit: BoxFit.fill,
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[Text(title), Icon(iconData)],
+              ),
       ),
       body: body,
       floatingActionButton: FloatingActionButton(
@@ -127,7 +156,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
             if (barItens[i].title.toString() ==
                 Text("Equinoterapia").toString()) index = i;
           }
-          body = mapPag[0];
+          body = mapPag[0]["body"];
+          title = mapPag[0]["title"];
           setState(() {
             currentIndex = index;
           });
