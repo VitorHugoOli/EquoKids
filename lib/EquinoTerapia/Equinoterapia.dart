@@ -1,10 +1,10 @@
-import 'package:equokids/Utils/Card.dart';
+import 'package:EquoKids/Utils/Card.dart';
 import 'package:flutter/material.dart';
 
 class Equinoterapia extends StatelessWidget {
 
   static List<Widget> cardItems = <Widget>[GenericCard(
-    title: "Qual o Objetivo do EquoKids?\n",
+    title: "Qual o Objetivo do EquoKids?",
     subtitle:
     "O EquoKids é um aplicativo que tem como tema inicial a Equoterapia - método terapêutico e educacional que utiliza o cavalo como meio de aprendizagem.\n\n" +
         "Objetivos: \n" +

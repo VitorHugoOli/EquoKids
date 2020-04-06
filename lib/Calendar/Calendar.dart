@@ -94,10 +94,7 @@ class _CalendarState extends State<Calendar> {
               style: styleDay);
         },
         firstDayOfWeek: 0,
-        showHeader: true,
-        headerTitleTouchable: true,
-        showHeaderButton: false,
-        headerMargin: EdgeInsets.only(right: 200.0),
+        showHeader: false,
         isScrollable: true,
         weekFormat: false,
         height: 400.0,

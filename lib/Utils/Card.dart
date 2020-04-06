@@ -22,6 +22,7 @@ class GenericCard extends StatelessWidget {
     return Center(
       child: Card(
         elevation: 9,
+        margin: EdgeInsets.only(left: 5,right: 5,bottom:5,top: 6),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -44,12 +45,15 @@ class GenericCard extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 16, right: 16, bottom: 8),
               child: ListTile(
-                title: Text(
-                  title,
-                  style: TextStyle(
-                      color: Color(0xff1CA1AD),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 1),
+                title: Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                        color: Color(0xff1CA1AD),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
                 ),
                 subtitle: Text(
                   subtitle,

@@ -1,7 +1,7 @@
-import 'package:equokids/Calendar/Calendar.dart';
-import 'package:equokids/EquinoTerapia/Equinoterapia.dart';
-import 'package:equokids/Utils/Card.dart';
-import 'package:equokids/Utils/HatCowBoy.dart';
+import 'package:EquoKids/Calendar/Calendar.dart';
+import 'package:EquoKids/EquinoTerapia/Equinoterapia.dart';
+import 'package:EquoKids/Utils/Card.dart';
+import 'package:EquoKids/Utils/HatCowBoy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

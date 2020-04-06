@@ -1,4 +1,4 @@
-package com.example.equokids
+package com.example.EquoKids
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
