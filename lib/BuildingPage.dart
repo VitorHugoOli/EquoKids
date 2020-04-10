@@ -1,6 +1,7 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class BuildPage extends StatelessWidget {
   BuildPage({this.Titulopagina, this.pagina});
@@ -18,11 +19,19 @@ class BuildPage extends StatelessWidget {
               Center(
                 child: Container(
                   width: 350,
-                  height: 350,
-                  child: FlareActor('assets/space_demo.flr',
-                      alignment: Alignment.center,
-                      fit: BoxFit.contain,
-                      animation: "idle-comet"),
+                  height: 250,
+                  child: Lottie.asset(
+                    "assets/developer.json",
+                    frameBuilder: (context, child, composition) {
+                      return AnimatedOpacity(
+                        child: child,
+                        opacity: composition == null ? 0 : 1,
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.easeOut,
+                      );
+                    },
+                  ),
+
                 ),
               ),
               Text(

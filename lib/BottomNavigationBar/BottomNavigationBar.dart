@@ -1,4 +1,4 @@
-import 'package:EquoKids/Calendar/Calendar.dart';
+import 'package:EquoKids/Calendar/CalendarPage.dart';
 import 'package:EquoKids/EquinoTerapia/Equinoterapia.dart';
 import 'package:EquoKids/Utils/Card.dart';
 import 'package:EquoKids/Utils/HatCowBoy.dart';
@@ -39,7 +39,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
         HatCowBoy.hatCowBoyOutline,
         color: Color(0xFFD98859),
       ),
-      title: Text("Equinoterapia"),
+      title: Text(
+        "Equinoterapia",
+        style: TextStyle(
+        ),
+      ),
     ),
     BubbleBottomBarItem(
       backgroundColor: Color(0xFFD98859),
@@ -63,7 +67,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           FontAwesomeIcons.commentDots,
           color: Color(0xFFD98859),
         ),
-        title: Text("Historias")),
+        title: Text("Histórias")),
     BubbleBottomBarItem(
         backgroundColor: Color(0xFFD98859),
         icon: Icon(
@@ -74,7 +78,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           FontAwesomeIcons.calendarAlt,
           color: Color(0xFFD98859),
         ),
-        title: Text("Calendarios")),
+        title: Text("Calendários")),
     BubbleBottomBarItem(
         backgroundColor: Color(0xFFD98859),
         icon: Icon(
