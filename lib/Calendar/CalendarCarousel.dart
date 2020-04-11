@@ -77,11 +77,10 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
           decoration: new BoxDecoration(
             color: Color(0xFF1CA1AD),
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(100.0)),
           ),
-          margin: const EdgeInsets.all(4.0),
-          width: 50,
-          height: 50,
+          width: 100,
+          height: 100,
           child: Center(
             child: Text(
               '${day.day}',
@@ -134,7 +133,7 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
       firstDayOfWeek: 0,
       showHeader: false,
       height: 225.0,
-      childAspectRatio: 1.6,
+      childAspectRatio: 1.2,
       selectedDateTime: _currentDate,
       markedDateMoreShowTotal: true,
       targetDateTime: widget.targetDateTime,

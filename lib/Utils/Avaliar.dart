@@ -102,6 +102,7 @@ class Avaliar extends StatelessWidget {
             fontWeight: FontWeight.w400),
       ),
     );
+
   }
 
   _card1() {

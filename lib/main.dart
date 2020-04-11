@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'BottomNavigationBar/BottomNavigationBar.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xff1CA6A6),
         scaffoldBackgroundColor: Color(0xFFCEF6F5),
         fontFamily: 'Comfortaa',
-
       ),
       routes: <String, WidgetBuilder>{
         "/": (BuildContext context) => new BottomNavigation(),
@@ -39,5 +37,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

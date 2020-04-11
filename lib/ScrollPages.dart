@@ -8,7 +8,7 @@ class ScrollPage extends StatefulWidget {
 class _ScrollPageState extends State<ScrollPage> {
   static PageController _controllerOne = PageController(
     initialPage: DateTime.now().month - 1,
-    viewportFraction: 0.5,
+    viewportFraction: 1,
   );
 
   static PageController _controllerTwo = PageController(
