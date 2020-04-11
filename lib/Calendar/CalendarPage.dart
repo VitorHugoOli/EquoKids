@@ -1,5 +1,8 @@
+import 'package:EquoKids/Utils/Avaliar.dart';
+import 'package:EquoKids/Utils/BottomSchedule.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
 import 'CalendarCarousel.dart';
@@ -12,8 +15,8 @@ class Calendar extends StatefulWidget {
 class _CalendarState extends State<Calendar> {
   String _currentMonth = DateFormat.MMMM("pt_BR").format(DateTime.now());
   DateTime _targetDateTime = DateTime.now();
-  int oldCurrentPageCalendar = 0;
-  double oldCurrentPage = 0;
+  int oldCurrentPageCalendar = DateTime.now().month - 2;
+  int oldCurrentPage = DateTime.now().month - 1;
 
   static PageController _controller = PageController(
     initialPage: DateTime.now().month - 1,
@@ -41,26 +44,25 @@ class _CalendarState extends State<Calendar> {
   ///Scroll Control
   _scrollListener() async {
     double current = _controller.page;
-    if (oldCurrentPageCalendar != _controller.page) {
-      if ((current - current.toInt()) == 0) {
-        if (_controller.page < oldCurrentPage) {
-          _controllerCalendar.nextPage(
-              duration: Duration(milliseconds: 100), curve: Curves.linear);
-        } else {
-          _controllerCalendar.previousPage(
-              duration: Duration(milliseconds: 100), curve: Curves.linear);
-        }
-        oldCurrentPage = _controller.page;
+    if ((current - current.toInt()) == 0) {
+      if (oldCurrentPageCalendar != _controller.page) {
+        print(_controller.page + 9);
+        _controllerCalendar.animateToPage((_controller.page + 9).toInt(),
+            duration: Duration(milliseconds: 100), curve: Curves.linear);
         setState(() {});
       }
     }
   }
 
   calendarChange(DateTime date) {
+    print(date.toIso8601String());
     this.setState(() {
       _targetDateTime = date;
       _currentMonth = DateFormat.MMMM("pt_BR").format(_targetDateTime);
+      print(oldCurrentPageCalendar);
       oldCurrentPageCalendar = _targetDateTime.month - 1;
+      print(oldCurrentPageCalendar);
+      print("\n\n\n");
       _controller.animateToPage(_targetDateTime.month - 1,
           duration: Duration(milliseconds: 225), curve: Curves.easeInToLinear);
     });
@@ -98,36 +100,44 @@ class _CalendarState extends State<Calendar> {
 //     ],
 //    )}
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
+    return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Container(
-            height: size.height * 0.08,
-            child: PageView(
-              controller: _controller,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
+            child: Column(
               children: <Widget>[
-                monthListStyle(size, "Janeiro"),
-                monthListStyle(size, "Fevereiro"),
-                monthListStyle(size, "Março"),
-                monthListStyle(size, "Abril"),
-                monthListStyle(size, "Maio"),
-                monthListStyle(size, "Junho"),
-                monthListStyle(size, "Julho"),
-                monthListStyle(size, "Agosto"),
-                monthListStyle(size, "Setembro"),
-                monthListStyle(size, "Outubro"),
-                monthListStyle(size, "Novembro"),
-                monthListStyle(size, "Dezembro"),
+                Container(
+                  height: size.height * 0.08,
+                  child: PageView(
+                    controller: _controller,
+                    children: <Widget>[
+                      monthListStyle(size, "Janeiro"),
+                      monthListStyle(size, "Fevereiro"),
+                      monthListStyle(size, "Março"),
+                      monthListStyle(size, "Abril"),
+                      monthListStyle(size, "Maio"),
+                      monthListStyle(size, "Junho"),
+                      monthListStyle(size, "Julho"),
+                      monthListStyle(size, "Agosto"),
+                      monthListStyle(size, "Setembro"),
+                      monthListStyle(size, "Outubro"),
+                      monthListStyle(size, "Novembro"),
+                      monthListStyle(size, "Dezembro"),
+                    ],
+                  ),
+                ),
+                CalendarCarouselOwn(
+                  controllerCalendar: _controllerCalendar,
+                  calendarChange: calendarChange,
+                  targetDateTime: _targetDateTime,
+                ),
               ],
             ),
           ),
-          CalendarCarouselOwn(
-            controllerCalendar: _controllerCalendar,
-            calendarChange: calendarChange,
-            targetDateTime: _targetDateTime,
-          ),
-
+          Avaliar(
+            size: size,
+          )
         ],
       ),
     );

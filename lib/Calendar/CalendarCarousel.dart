@@ -122,7 +122,6 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
     ),
   );
 
-
   @override
   Widget build(BuildContext context) {
     return CalendarCarousel<Event>(
@@ -134,8 +133,8 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
       weekDayFormat: WeekdayFormat.standaloneShort,
       firstDayOfWeek: 0,
       showHeader: false,
-      height: 400.0,
-      childAspectRatio: 1.4,
+      height: 225.0,
+      childAspectRatio: 1.6,
       selectedDateTime: _currentDate,
       markedDateMoreShowTotal: true,
       targetDateTime: widget.targetDateTime,
