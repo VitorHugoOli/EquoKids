@@ -130,13 +130,13 @@ class Avaliar extends StatelessWidget {
     );
   }
 
-  _card2(String text) {
+  _card2(String text, double largura) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
             height: 40,
-            width: size.width * .82,
+            width: size.width * largura ,
             padding: EdgeInsets.only(top: 5),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -165,7 +165,6 @@ class Avaliar extends StatelessWidget {
         height: 600,
         decoration: BoxDecoration(
           color: Color(0xffF3DCCC),
-
         ),
         padding: EdgeInsets.only(left: 18, top: 12, right: 18),
         child: Column(
@@ -179,20 +178,20 @@ class Avaliar extends StatelessWidget {
             ),
             Column(
               children: <Widget>[
-                _card2("Desenvolvimento Motor"),
+                _card2("Desenvolvimento Motor", .82),
                 _bigBox("(marcha, equilibrio, locomoção, etc.)")
               ],
             ),
             Column(
               children: <Widget>[
-                _card2("Desenvolvimento Social"),
+                _card2("Desenvolvimento Social", .82),
                 _bigBox("(interação social, comunicação)")
               ],
             ),
             Column(
               children: <Widget>[
-                _card2("Autocuidado"),
-                _bigBox("(melhora na almentação, higiene pessoal, etc.)")
+                _card2("Autocuidado", .48),
+                _bigBox("(melhora na alimentação, higiene pessoal, etc.)")
               ],
             )
           ],
