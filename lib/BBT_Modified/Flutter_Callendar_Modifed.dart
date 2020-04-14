@@ -15,7 +15,6 @@
 //typedef MarkedDateIconBuilder<T> = Widget Function(T event);
 //typedef void OnDayLongPressed(DateTime day);
 //
-
 //
 ///// This builder is called for every day in the calendar.
 ///// If you want to build only few custom day containers, return null for the days you want to leave with default looks

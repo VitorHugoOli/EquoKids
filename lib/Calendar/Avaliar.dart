@@ -1,10 +1,12 @@
+import 'package:EquoKids/Calendar/Event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Avaliar extends StatelessWidget {
   Size size;
+  Event event;
 
-  Avaliar({this.size});
+  Avaliar({@required this.size,@required this.event});
 
   _header() {
     return Container(
@@ -136,7 +138,7 @@ class Avaliar extends StatelessWidget {
       children: <Widget>[
         Container(
             height: 40,
-            width: size.width * largura ,
+            width: size.width * largura,
             padding: EdgeInsets.only(top: 5),
             decoration: BoxDecoration(
               color: Colors.white,
