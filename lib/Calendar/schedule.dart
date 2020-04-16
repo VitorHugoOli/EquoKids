@@ -1,9 +1,11 @@
+import 'package:EquoKids/Calendar/Event.dart';
 import 'package:flutter/material.dart';
 
 class BottomSchedule extends StatelessWidget {
   Size size;
+  Event event;
 
-  BottomSchedule({this.size});
+  BottomSchedule({@required this.size,@required this.event});
 
   _header() {
     return Container(

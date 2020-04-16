@@ -1,6 +1,5 @@
 import 'package:EquoKids/Calendar/CalendarPage.dart';
 import 'package:EquoKids/EquinoTerapia/Equinoterapia.dart';
-import 'package:EquoKids/Utils/Card.dart';
 import 'package:EquoKids/Utils/HatCowBoy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../BuildingPage.dart';
-import 'bubble_bottom_bar.dart';
+import '../BBT_Modified/bubble_bottom_bar.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override

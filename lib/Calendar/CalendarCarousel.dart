@@ -1,15 +1,20 @@
+import 'package:EquoKids/Calendar/Event.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
-    show CalendarCarousel, WeekdayBuilder, WeekdayFormat;
+    show CalendarCarousel, WeekdayFormat;
 
 class CalendarCarouselOwn extends StatefulWidget {
   PageController controllerCalendar;
   Function(DateTime) calendarChange;
   DateTime targetDateTime;
+  List<Event> events;
+  Function(DateTime) dayPressed;
 
-  CalendarCarouselOwn(
-      {this.controllerCalendar, this.targetDateTime, this.calendarChange});
+  CalendarCarouselOwn({this.controllerCalendar,
+    this.targetDateTime,
+    this.calendarChange,
+    this.dayPressed,
+    this.events});
 
   @override
   _CalendarCarouselOwnState createState() => _CalendarCarouselOwnState();
@@ -18,11 +23,8 @@ class CalendarCarouselOwn extends StatefulWidget {
 class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
   DateTime _currentDate = DateTime.now();
 
-//  Map<DateTime,Event> events = {
-//    DateTime(2020,4,12):
-//  }
-
-  dayPressed(DateTime date, List<Event> events) {
+  dayPressed(DateTime date,_) {
+    widget.dayPressed(date);
     setState(() {
       _currentDate = date;
     });
@@ -41,11 +43,57 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
     };
   }
 
+  Widget customEventsDay(Status status, DateTime day) {
+    Color colorRadius = Color(0xff1CA1AD);
+    Color colorText = Colors.white;
+
+    if (status == Status.none) {
+      colorRadius = Colors.transparent;
+      colorText = Color(0xff1CA1AD);
+    } else if (status == Status.scheduled) {
+      colorRadius = Colors.red;
+    } else if (status == Status.InEvaluation) {
+      colorRadius = Color(0xffD68954);
+    } else {}
+    return Container(
+      decoration: new BoxDecoration(
+        color: colorRadius,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+      ),
+      margin: const EdgeInsets.all(4.0),
+      width: 50,
+      height: 50,
+      child: Center(
+        child: Text(
+          '${day.day}',
+          style: TextStyle(
+            fontSize: 21.0,
+            color: colorText,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ),
+    );
+  }
+
+
   dayBuilder() {
     return (isSelectable, index, isSelectedDay, isToday, isPrevMonthDay,
         textStyle, isNextMonthDay, isThisMonthDay, day) {
       TextStyle sty;
-      if (isNextMonthDay || isPrevMonthDay) {
+      bool haveDay = false;
+      Event event;
+      widget.events.forEach((e) {
+        if (e.dateTime.compareTo(day) == 0) {
+          haveDay = true;
+          event = e;
+        }
+      });
+
+      if (haveDay) {
+        return customEventsDay(event.status,day);
+      } else if (isNextMonthDay || isPrevMonthDay) {
         sty = TextStyle(
           fontSize: 21.0,
           fontWeight: FontWeight.bold,
@@ -58,7 +106,6 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.all(Radius.circular(11.0)),
           ),
-//          margin: const EdgeInsets.all(1.0),
           width: 50,
           height: 100,
           child: Center(
@@ -75,7 +122,7 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
       } else if (isToday) {
         return Container(
           decoration: new BoxDecoration(
-            color: Color(0xFF1CA1AD),
+            color: Color(0xFF323232),
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.all(Radius.circular(100.0)),
           ),
@@ -110,20 +157,10 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
     };
   }
 
-  static Widget _eventIcon = new Container(
-    decoration: new BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(1000)),
-        border: Border.all(color: Colors.blue, width: 2.0)),
-    child: new Icon(
-      Icons.person,
-      color: Colors.amber,
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
-    return CalendarCarousel<Event>(
+    return CalendarCarousel(
       locale: 'pt_BR',
       selectedDayButtonColor: Colors.transparent,
       selectedDayBorderColor: Colors.transparent,
