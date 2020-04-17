@@ -10,11 +10,12 @@ class CalendarCarouselOwn extends StatefulWidget {
   List<Event> events;
   Function(DateTime) dayPressed;
 
-  CalendarCarouselOwn({this.controllerCalendar,
-    this.targetDateTime,
-    this.calendarChange,
-    this.dayPressed,
-    this.events});
+  CalendarCarouselOwn(
+      {this.controllerCalendar,
+      this.targetDateTime,
+      this.calendarChange,
+      this.dayPressed,
+      this.events});
 
   @override
   _CalendarCarouselOwnState createState() => _CalendarCarouselOwnState();
@@ -23,7 +24,7 @@ class CalendarCarouselOwn extends StatefulWidget {
 class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
   DateTime _currentDate = DateTime.now();
 
-  dayPressed(DateTime date,_) {
+  dayPressed(DateTime date, _) {
     widget.dayPressed(date);
     setState(() {
       _currentDate = date;
@@ -59,16 +60,16 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
       decoration: new BoxDecoration(
         color: colorRadius,
         shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
       ),
-      margin: const EdgeInsets.all(4.0),
+      margin: const EdgeInsets.only(left: 2, right: 2),
       width: 50,
       height: 50,
       child: Center(
         child: Text(
           '${day.day}',
           style: TextStyle(
-            fontSize: 21.0,
+            fontSize: 20.0,
             color: colorText,
             fontWeight: FontWeight.w900,
           ),
@@ -77,11 +78,42 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
     );
   }
 
+  Widget widgetDay(
+      {@required Color colorRadius,
+      @required Color colorText,
+      @required DateTime day}) {
+    return Container(
+      decoration: new BoxDecoration(
+        color: colorRadius,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+      ),
+      margin: const EdgeInsets.all(1),
+      width: 50,
+      height: 50,
+      child: Center(
+        child: Text(
+          '${day.day}',
+          style: TextStyle(
+            fontSize: 20.0,
+            color: colorText,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ),
+    );
+  }
 
   dayBuilder() {
-    return (isSelectable, index, isSelectedDay, isToday, isPrevMonthDay,
-        textStyle, isNextMonthDay, isThisMonthDay, day) {
-      TextStyle sty;
+    return (bool isSelectable,
+        int index,
+        bool isSelectedDay,
+        bool isToday,
+        bool isPrevMonthDay,
+        TextStyle textStyle,
+        bool isNextMonthDay,
+        bool isThisMonthDay,
+        DateTime day) {
       bool haveDay = false;
       Event event;
       widget.events.forEach((e) {
@@ -92,71 +124,28 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
       });
 
       if (haveDay) {
-        return customEventsDay(event.status,day);
+        return customEventsDay(event.status, day);
       } else if (isNextMonthDay || isPrevMonthDay) {
-        sty = TextStyle(
-          fontSize: 21.0,
-          fontWeight: FontWeight.bold,
-          color: Color(0xff63C3CA),
-        );
+        return widgetDay(
+            colorRadius: Colors.transparent,
+            colorText: Color(0xff63C3CA),
+            day: day);
       } else if (isSelectedDay) {
-        return Container(
-          decoration: new BoxDecoration(
-            color: Color(0xffF3DCCC),
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.all(Radius.circular(11.0)),
-          ),
-          width: 50,
-          height: 100,
-          child: Center(
-            child: Text(
-              '${day.day}',
-              style: TextStyle(
-                fontSize: 21.0,
-                color: Color(0xff1CA1AD),
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ),
-        );
+        return widgetDay(
+            colorRadius: Color(0xffF3DCCC),
+            colorText: Color(0xff1CA1AD),
+            day: day);
       } else if (isToday) {
-        return Container(
-          decoration: new BoxDecoration(
-            color: Color(0xFF323232),
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.all(Radius.circular(100.0)),
-          ),
-          width: 100,
-          height: 100,
-          child: Center(
-            child: Text(
-              '${day.day}',
-              style: TextStyle(
-                fontSize: 21.0,
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ),
-        );
+        return widgetDay(
+            colorRadius: Colors.white, colorText: Color(0xff1CA1AD), day: day);
       } else {
-        sty = TextStyle(
-          fontSize: 21.0,
-          color: Color(0xff1CA1AD),
-          fontWeight: FontWeight.bold,
-        );
+        return widgetDay(
+            colorRadius: Colors.transparent,
+            colorText: Color(0xff1CA1AD),
+            day: day);
       }
-      return Container(
-        margin: const EdgeInsets.all(4.0),
-        width: 50,
-        height: 50,
-        child: Center(
-          child: Text('${day.day}', style: sty),
-        ),
-      );
     };
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +159,7 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
       firstDayOfWeek: 0,
       showHeader: false,
       height: 225.0,
-      childAspectRatio: 1.2,
+      childAspectRatio: 1.35,
       selectedDateTime: _currentDate,
       markedDateMoreShowTotal: true,
       targetDateTime: widget.targetDateTime,

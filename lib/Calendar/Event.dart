@@ -4,6 +4,8 @@ enum Status { none, scheduled, InEvaluation, rated }
 
 class Event {
   DateTime dateTime;
+  DateTime startTime;
+  DateTime endTime;
   int motorDevelopment;
   int socialDevelopment;
   int selfCare;

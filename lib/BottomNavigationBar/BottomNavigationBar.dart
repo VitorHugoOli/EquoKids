@@ -1,5 +1,6 @@
 import 'package:EquoKids/Calendar/CalendarPage.dart';
 import 'package:EquoKids/EquinoTerapia/Equinoterapia.dart';
+import 'package:EquoKids/Graphics/GraphicsPage.dart';
 import 'package:EquoKids/Testimonial/Testimonial.dart';
 import 'package:EquoKids/Utils/HatCowBoy.dart';
 import 'package:flutter/cupertino.dart';
@@ -115,7 +116,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     4: {
       "title": "Gráfico",
       "icon": FontAwesomeIcons.chartLine,
-      "body": BuildPage(pagina: false, Titulopagina: "Construindo")
+      "body": Graph()
     },
   };
 

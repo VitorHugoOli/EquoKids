@@ -33,7 +33,7 @@ class _TestimonialState extends State<Testimonial> {
 
   Container _commentButtons(Size size) {
     return Container(
-            margin: EdgeInsets.only(top: 24, left: 12, right: 12),
+            margin: EdgeInsets.only(top: size.height*0.039, left: 12, right: 12),
             padding: EdgeInsets.only(top: 25, left: 13, right: 13),
             height: size.height * 0.09,
             decoration: BoxDecoration(

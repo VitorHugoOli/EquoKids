@@ -104,13 +104,14 @@ class _CalendarState extends State<Calendar> {
 
   dayPressed(DateTime date) {
     var haveEvent = true;
+
     events.forEach((e) {
       if (e.dateTime.compareTo(date) == 0) {
-        print("opaaa");
         haveEvent = false;
         actualEvent = e;
       }
     });
+
     if (haveEvent)
       actualEvent = Event(
           dateTime: date,
@@ -126,10 +127,10 @@ class _CalendarState extends State<Calendar> {
     Size size = MediaQuery.of(context).size;
 
     Map<Status, dynamic> _BottonPageController = {
-      Status.none: BottomSchedule(size: size, event: actualEvent),
-      Status.scheduled: BottomSchedule(size: size, event: actualEvent),
-      Status.InEvaluation: Avaliar(size: size, event: actualEvent),
-      Status.rated: Avaliar(size: size, event: actualEvent),
+      Status.none : BottomSchedule(size: size, event: actualEvent),
+      Status.scheduled : BottomSchedule(size: size, event: actualEvent),
+      Status.InEvaluation : Avaliar(size: size, event: actualEvent),
+      Status.rated : Avaliar(size: size, event: actualEvent),
     };
 
     Widget monthListStyle(Size size, String month) {

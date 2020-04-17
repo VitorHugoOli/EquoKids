@@ -88,10 +88,7 @@ class BottomSchedule extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _header(),
-            Container(
-              height: 20,
-              color: Colors.yellow,
-            ),
+
             _schedule()
           ],
         ),
