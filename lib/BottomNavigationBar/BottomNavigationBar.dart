@@ -1,5 +1,6 @@
 import 'package:EquoKids/Calendar/CalendarPage.dart';
 import 'package:EquoKids/EquinoTerapia/Equinoterapia.dart';
+import 'package:EquoKids/Testimonial/Testimonial.dart';
 import 'package:EquoKids/Utils/HatCowBoy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +23,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   @override
   void initState() {
-
-
     super.initState();
     currentIndex = 0;
   }
@@ -106,7 +105,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     2: {
       "title": "Depoimentos",
       "icon": FontAwesomeIcons.solidCommentDots,
-      "body": BuildPage(pagina: false, Titulopagina: "Construindo")
+      "body": Testimonial()
     },
     3: {
       "title": "Calendário",
