@@ -1,20 +1,24 @@
-import 'package:EquoKids/BBT_Modified/newDorpDownButton.dart';
 import 'package:EquoKids/Calendar/Event.dart';
+import 'package:EquoKids/Utils/DropBox.dart';
 import 'package:flutter/material.dart';
 
-class BottomSchedule extends StatefulWidget {
-  Size size;
-  Event event;
+class Schedule extends StatefulWidget {
+  final Size size;
+  final Event event;
+  final StateSetter setter;
+  final Map<DateTime, Event> events;
 
-  BottomSchedule({@required this.size, @required this.event});
+  Schedule(
+      {@required this.size,
+      @required this.event,
+      @required this.events,
+      @required this.setter});
 
   @override
-  _BottomScheduleState createState() => _BottomScheduleState();
+  _ScheduleState createState() => _ScheduleState();
 }
 
-class _BottomScheduleState extends State<BottomSchedule> {
-  String dropdownValue = '13hrs';
-
+class _ScheduleState extends State<Schedule> {
   _header() {
     return Container(
       width: widget.size.width,
@@ -36,40 +40,11 @@ class _BottomScheduleState extends State<BottomSchedule> {
     );
   }
 
-  _dropBox() {
-    return Theme(
-      data: ThemeData(
-        canvasColor: Color(0xffF3DCCC),
-      ),
-      child: DropdownButtonOwn<String>(
-        value: dropdownValue,
-        elevation: 16,
-        style: TextStyle(color: Colors.white),
-        iconSize: 0,
-        onChanged: (String newValue) {
-          setState(() {
-            dropdownValue = newValue;
-          });
-        },
-        items: <String>['13hrs', '12hrs', '11hrs', '10hrs']
-            .map<DropdownMenuItemOwn<String>>((String value) {
-          return DropdownMenuItemOwn<String>(
-            value: value,
-            child: Text(
-              value,
-              style: TextStyle(color: Color(0xffD68954), fontSize: 20),
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-
   _timeBox(String text) {
     return Row(
       children: <Widget>[
         Text(
-          text,
+          text + ":",
           style: TextStyle(fontSize: 24, color: Colors.white),
         ),
         Container(
@@ -83,7 +58,11 @@ class _BottomScheduleState extends State<BottomSchedule> {
           decoration: BoxDecoration(
               color: Color(0xffF3DCCC),
               borderRadius: BorderRadius.all(Radius.circular(70))),
-          child: _dropBox(),
+          child: DropBoxInput(
+            event: widget.event,
+            timeType: "Até" == text ? "end" : "start",
+            color: Color(0xffD68954),
+          ),
         ),
       ],
     );
@@ -104,8 +83,8 @@ class _BottomScheduleState extends State<BottomSchedule> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          _timeBox("De:"),
-          _timeBox("Até:"),
+          _timeBox("De"),
+          _timeBox("Até"),
         ],
       ),
     );
@@ -124,7 +103,20 @@ class _BottomScheduleState extends State<BottomSchedule> {
         ),
         padding: EdgeInsets.only(left: 18, top: 12, right: 18),
         child: Column(
-          children: <Widget>[_header(), _schedule()],
+          children: <Widget>[
+            _header(),
+            _schedule(),
+            RaisedButton(
+              color: Colors.green,
+              onPressed: () {
+                widget.setter(() {
+                  widget.event.status = Status.scheduled;
+                  widget.events[widget.event.dateTime] = widget.event;
+                });
+              },
+              child: Text("Marcar"),
+            )
+          ],
         ),
       ),
     ]);
