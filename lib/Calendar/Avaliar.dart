@@ -1,22 +1,43 @@
 import 'package:EquoKids/Calendar/Event.dart';
-import 'package:EquoKids/Utils/DropBox.dart';
+import 'package:EquoKids/Utils/EvaluationIcons.dart';
+import 'package:EquoKids/Utils/Flush.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Avaliar extends StatelessWidget {
+class Avaliar extends StatefulWidget {
   final Size size;
   final Event event;
+  final StateSetter setter;
 
-  Avaliar({@required this.size, @required this.event});
+  Avaliar({@required this.size, @required this.event, @required this.setter});
 
+  @override
+  _AvaliarState createState() => _AvaliarState();
+}
+
+class _AvaliarState extends State<Avaliar> {
   _typeChange() {
     return {
-      "socialDevelopment": event.socialDevelopment,
-      "motorDevelopment": event.motorDevelopment,
-      "selfCare": event.selfCare
+      "socialDevelopment": {
+        "value": widget.event.socialDevelopment,
+        "set": (value) {
+          widget.event.socialDevelopment = value;
+        }
+      },
+      "motorDevelopment": {
+        "value": widget.event.motorDevelopment,
+        "set": (value) {
+          widget.event.motorDevelopment = value;
+        }
+      },
+      "selfCare": {
+        "value": widget.event.selfCare,
+        "set": (value) {
+          widget.event.selfCare = value;
+        }
+      }
     };
   }
 
@@ -24,7 +45,7 @@ class Avaliar extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          width: size.width,
+          width: widget.size.width,
           height: 60,
           padding: EdgeInsets.only(left: 18, top: 13),
           decoration: BoxDecoration(
@@ -42,7 +63,7 @@ class Avaliar extends StatelessWidget {
           ),
         ),
         Container(
-            width: size.width,
+            width: widget.size.width,
             height: 1,
             decoration: BoxDecoration(color: Colors.white))
       ],
@@ -57,23 +78,28 @@ class Avaliar extends StatelessWidget {
           style: TextStyle(fontSize: 24, color: Colors.white),
         ),
         Container(
-          width: size.width * 0.2,
+          width: widget.size.width * 0.22,
           height: 54,
           margin: EdgeInsets.only(
             left: 19,
             right: 12,
           ),
-          padding: EdgeInsets.only(top: 14, left: 15),
+          padding: EdgeInsets.only(top: 15, left: 16),
           decoration: BoxDecoration(
-              color: isInEvaluation ? Color(0xffF3DCCC) : Color(0xff8BE8F0),
-              borderRadius: BorderRadius.all(Radius.circular(70))),
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(70),
+            ),
+          ),
           child: Text(
             ("Até" == text
-                ? event.endTime.hour.toString()
-                : event.startTime.hour.toString()) + "hrs",
+                    ? widget.event.endTime.hour.toString()
+                    : widget.event.startTime.hour.toString()) +
+                "hrs",
             style: TextStyle(
                 color: isInEvaluation ? Color(0xffD68954) : Color(0xff1CA1AD),
-                fontSize: 20),
+                fontSize: widget.size.height * 0.03,
+                fontWeight: FontWeight.bold),
           ),
         ),
       ],
@@ -82,7 +108,7 @@ class Avaliar extends StatelessWidget {
 
   _schedule(bool isInEvaluation) {
     return Container(
-      width: size.width,
+      width: widget.size.width,
       height: 60,
       padding: EdgeInsets.only(
         left: 18,
@@ -106,17 +132,21 @@ class Avaliar extends StatelessWidget {
     );
   }
 
-  _rating(String rate) {
+  _rating(String rate, bool isInEvaluation) {
     detector(IconData icon, int value) {
       return GestureDetector(
         onTap: () {
-          _typeChange()[rate] = value;
-          print(value);
+          if (isInEvaluation) {
+            _typeChange()[rate]["set"](value);
+            setState(() {});
+          }
         },
         child: Icon(
           icon,
-          color: Color(0xffD4D4D4),
-          size: 35,
+          color: _typeChange()[rate]["value"] == value
+              ? Colors.white
+              : isInEvaluation ? Color(0xffF3DCCC) : Color(0xff8BE8F0),
+          size: 45,
         ),
       );
     }
@@ -124,26 +154,25 @@ class Avaliar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        detector(FontAwesomeIcons.calendar, 1),
-        detector(FontAwesomeIcons.calendar, 2),
-        detector(FontAwesomeIcons.calendar, 3),
-        detector(FontAwesomeIcons.calendar, 4),
-        detector(FontAwesomeIcons.calendar, 5)
+        detector(EvaluationIcons.darkness, 1),
+        detector(EvaluationIcons.sad, 2),
+        detector(EvaluationIcons.meh_regular, 3),
+        detector(EvaluationIcons.smile_regular, 4),
+        detector(EvaluationIcons.happy, 5)
       ],
     );
   }
 
   _bigBox(String text, String rate, bool isInEvaluation) {
     return Container(
-      width: size.width,
-//      height: size.height * .18,
+      width: widget.size.width,
       padding: EdgeInsets.only(
         left: 10,
         top: 12,
         bottom: 20,
       ),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: isInEvaluation ? Color(0xffD68954) : Color(0xff1CA1AD),
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(40),
             bottomRight: Radius.circular(40),
@@ -162,26 +191,26 @@ class Avaliar extends StatelessWidget {
               style: TextStyle(
                   fontFamily: "Raleway",
                   fontSize: 18,
-                  color: isInEvaluation ? Color(0xffD68954) : Color(0xff4BB4BD),
+                  color: Colors.white,
                   fontWeight: FontWeight.w600),
             ),
           ),
-          _rating(rate),
+          _rating(rate, isInEvaluation),
         ],
       ),
     );
   }
 
-  _card1(bool isInEvaluation) {
+  _cardHappened(bool isInEvaluation) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
-            height: 30,
-            width: size.width * .3,
-            padding: EdgeInsets.only(top: 5),
+            height: 35,
+            width: widget.size.width * .35,
+            padding: EdgeInsets.only(top: 7),
             decoration: BoxDecoration(
-              color: isInEvaluation ? Color(0xffE69E6D) : Color(0xff4BB4BD),
+              color: Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             ),
@@ -190,26 +219,26 @@ class Avaliar extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: "Comfortaa",
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400),
+                  fontSize: 20,
+                  color: isInEvaluation ? Color(0xffD68954) : Color(0xff1CA1AD),
+                  fontWeight: FontWeight.w600),
             ))
       ],
     );
   }
 
-  _card2(String text, double largura, bool isInEvaluation) {
+  _cardEvaluation(String text, double largura, bool isInEvaluation) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
             height: 32,
-            width: size.width * largura,
+            width: widget.size.width * largura,
             padding: EdgeInsets.only(top: 6),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: isInEvaluation ? Color(0xffD68954) : Color(0xff1CA1AD),
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             ),
             child: Text(
               text,
@@ -217,24 +246,40 @@ class Avaliar extends StatelessWidget {
               style: TextStyle(
                   fontFamily: "Comfortaa",
                   fontSize: 18,
-                  color: isInEvaluation ? Color(0xffD68954) : Color(0xff1CA1AD),
+                  color: Colors.white,
                   fontWeight: FontWeight.w800),
             ))
       ],
     );
   }
 
+  Column evaluation(
+      {bool isInEvaluation,
+      double width,
+      String textSubtitle,
+      String rate,
+      String textBody}) {
+    return Column(
+      children: <Widget>[
+        _cardEvaluation(textSubtitle, width, isInEvaluation),
+        _bigBox(textBody, rate, isInEvaluation),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isInEvaluation = (event.status == Status.InEvaluation);
+    Size size = MediaQuery.of(context).size;
+    print('Esse é o event.status: ${widget.event.status}');
+    bool isInEvaluation = widget.event.status == Status.InEvaluation;
 
     return Column(children: [
       _header(isInEvaluation),
       Container(
-        width: size.width,
-        height: 600,
+        width: widget.size.width,
+        height: 700,
         decoration: BoxDecoration(
-          color: isInEvaluation ? Color(0xffF3DCCC) : Color(0xff8BE8F0),
+          color: isInEvaluation ? Color(0xffE69E6D) : Color(0xff4BB4BD),
         ),
         padding: EdgeInsets.only(left: 18, top: 12, right: 18),
         child: Column(
@@ -242,31 +287,64 @@ class Avaliar extends StatelessWidget {
           children: <Widget>[
             Column(
               children: <Widget>[
-                _card1(isInEvaluation),
+                _cardHappened(isInEvaluation),
                 _schedule(isInEvaluation),
               ],
             ),
-            Column(
-              children: <Widget>[
-                _card2("Desenvolvimento Motor", .6, isInEvaluation),
-                _bigBox("(marcha, equilibrio, locomoção, etc.)",
-                    "motorDevelopment", isInEvaluation)
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                _card2("Desenvolvimento Social", .6, isInEvaluation),
-                _bigBox("(interação social, comunicação)", "socialDevelopment",
-                    isInEvaluation)
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                _card2("Autocuidado", .34, isInEvaluation),
-                _bigBox("(melhora na alimentação, higiene pessoal, etc.)",
-                    "selfCare", isInEvaluation)
-              ],
-            ),
+            evaluation(
+                isInEvaluation: isInEvaluation,
+                width: .6,
+                textSubtitle: "Desenvolvimento Motor",
+                textBody: "(marcha, equilibrio, locomoção, etc.)",
+                rate: "motorDevelopment"),
+            evaluation(
+                isInEvaluation: isInEvaluation,
+                width: .6,
+                textSubtitle: "Desenvolvimento Social",
+                textBody: "(interação social, comunicação)",
+                rate: "socialDevelopment"),
+            evaluation(
+                isInEvaluation: isInEvaluation,
+                width: .34,
+                textSubtitle: "Autocuidado",
+                textBody: "(melhora na alimentação, higiene pessoal, etc.)",
+                rate: "selfCare"),
+            isInEvaluation
+                ? Container(
+                    margin: EdgeInsets.only(bottom: 30),
+                    height: size.height * 0.07,
+                    width: widget.size.width * 0.3,
+                    child: FlatButton(
+                      child: Text(
+                        "Salvar",
+                        style: TextStyle(
+                            color: Color(0xffD68954),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 17),
+                      ),
+                      color: Colors.white,
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0),
+                      ),
+                      onPressed: () {
+                        if (widget.event.motorDevelopment > 0 &&
+                            widget.event.socialDevelopment > 0 &&
+                            widget.event.selfCare > 0) {
+                          widget.event.status = Status.rated;
+                          widget.setter(() {});
+                        } else {
+                          buildMessenger(
+                              messenger:
+                                  "Vocẽ deve preencher todos as avaliaçoes",
+                              context: context);
+                        }
+                      },
+                    ),
+                  )
+                : Container(
+                    margin: EdgeInsets.only(bottom: 30),
+                    height: size.height * 0.07,
+                  ),
           ],
         ),
       ),

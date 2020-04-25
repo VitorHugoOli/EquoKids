@@ -145,9 +145,7 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.targetDateTime);
-    print(_currentDate);
-
+    Size size = MediaQuery.of(context).size;
 
     return CalendarCarousel(
       locale: 'pt_BR',
@@ -158,8 +156,8 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
       weekDayFormat: WeekdayFormat.standaloneShort,
       firstDayOfWeek: 0,
       showHeader: false,
-      height: 225.0,
-      childAspectRatio: 1.35,
+      height: size.height*0.35,
+      childAspectRatio: 1.34,
       selectedDateTime: _currentDate,
       markedDateMoreShowTotal: true,
       targetDateTime: widget.targetDateTime,

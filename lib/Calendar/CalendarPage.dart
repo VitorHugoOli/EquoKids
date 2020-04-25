@@ -75,7 +75,7 @@ class _CalendarState extends State<Calendar> {
       size, actualEvent, events, setState) {
     Schedule schedule = Schedule(
         size: size, event: actualEvent, events: events, setter: setState);
-    Avaliar avaliar = Avaliar(size: size, event: actualEvent);
+    Avaliar avaliar = Avaliar(size: size, event: actualEvent,setter: setState,);
     return {
       Status.none: schedule,
       Status.scheduled: schedule,
