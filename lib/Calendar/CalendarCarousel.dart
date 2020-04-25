@@ -24,6 +24,7 @@ class CalendarCarouselOwn extends StatefulWidget {
 class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
   DateTime _currentDate = DateTime.now();
 
+
   dayPressed(DateTime date, _) {
     widget.dayPressed(date);
     setState(() {
@@ -141,6 +142,10 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.targetDateTime);
+    print(_currentDate);
+
+
     return CalendarCarousel(
       locale: 'pt_BR',
       selectedDayButtonColor: Colors.transparent,

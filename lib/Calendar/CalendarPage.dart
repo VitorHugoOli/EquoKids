@@ -36,8 +36,8 @@ Map<DateTime, Event> mockUpEvents() {
   };
 
   events.forEach((e, a) {
-    a.startTime = DateTime.parse("2012-02-27T${(e.day+13)%23}Z");
-    a.endTime = DateTime.parse("2012-02-27T${(e.day+14)%23}Z");
+    a.startTime = DateTime.parse("2012-02-27T${(e.day + 13) % 23}Z");
+    a.endTime = DateTime.parse("2012-02-27T${(e.day + 14) % 23}Z");
   });
 
   return events;
@@ -46,6 +46,7 @@ Map<DateTime, Event> mockUpEvents() {
 class _CalendarState extends State<Calendar> {
   Map<DateTime, Event> events = Map<DateTime, Event>();
 
+  static final actualday = DateTime.now();
   Event actualEvent = Event(
       dateTime: DateTime.now(),
       motorDevelopment: 0,
@@ -54,17 +55,18 @@ class _CalendarState extends State<Calendar> {
       status: Status.none);
 
   String _currentMonth = DateFormat.MMMM("pt_BR").format(DateTime.now());
-  DateTime _targetDateTime = DateTime.now();
+  DateTime _targetDateTime = actualday;
   int oldCurrentPageCalendar = DateTime.now().month - 2;
-  int oldCurrentPage = DateTime.now().month - 1;
+  int oldCurrentPage = actualday.month - 1;
 
   static PageController _controller = PageController(
-    initialPage: DateTime.now().month - 1,
+    initialPage: actualday.month - 1,
     viewportFraction: 0.8,
   );
 
   static PageController _controllerCalendar = PageController(
-    initialPage: 12,
+    initialPage:
+        12 + (actualday.month - actualday.subtract(Duration(days: 360)).month),
     keepPage: true,
     viewportFraction: 1.0,
   );
