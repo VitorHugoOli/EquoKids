@@ -49,11 +49,13 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
     Color colorRadius = Color(0xff1CA1AD);
     Color colorText = Colors.white;
 
+
     if (status == Status.none) {
-      colorRadius = Colors.transparent;
-      colorText = Color(0xff1CA1AD);
+      colorRadius = Color(0xffE69E6D);
+      colorText = Color(0xffD68954);
     } else if (status == Status.scheduled) {
-      colorRadius = Colors.red;
+      colorRadius = Color(0xffE69E6D);
+      colorText = Colors.white;
     } else if (status == Status.InEvaluation) {
       colorRadius = Color(0xffD68954);
     } else {}
@@ -72,7 +74,8 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
           style: TextStyle(
             fontSize: 20.0,
             color: colorText,
-            fontWeight: FontWeight.w900,
+            fontFamily: "Comfortaa",
+            fontWeight: FontWeight.w800,
           ),
         ),
       ),
@@ -98,7 +101,7 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
           style: TextStyle(
             fontSize: 20.0,
             color: colorText,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w800,
           ),
         ),
       ),
@@ -126,11 +129,11 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
       } else if (isSelectedDay) {
         return widgetDay(
             colorRadius: Color(0xffF3DCCC),
-            colorText: Color(0xff1CA1AD),
+            colorText: Color(0xffD68954),
             day: day);
       } else if (isToday) {
         return widgetDay(
-            colorRadius: Colors.white, colorText: Color(0xff1CA1AD), day: day);
+            colorRadius: Colors.white, colorText: Color(0xffD68954), day: day);
       } else {
         return widgetDay(
             colorRadius: Colors.transparent,

@@ -226,7 +226,7 @@ class Avaliar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isInEvaluation = event.status == Status.InEvaluation;
+    bool isInEvaluation = (event.status == Status.InEvaluation);
 
     return Column(children: [
       _header(isInEvaluation),
