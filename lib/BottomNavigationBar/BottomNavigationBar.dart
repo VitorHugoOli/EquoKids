@@ -101,7 +101,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     1: {
       "title": "Depoimentos",
       "icon": FontAwesomeIcons.hatCowboySide,
-      "body": BuildPage(pagina: false, Titulopagina: "Construindo")
+      "body": BuildPage(pagina: false, titulopagina: "Construindo")
     },
     2: {
       "title": "Depoimentos",

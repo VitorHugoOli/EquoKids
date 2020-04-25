@@ -5,13 +5,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// This is the stateless widget that the main application instantiates.
 class GenericCard extends StatelessWidget {
-  String title;
-  String subtitle;
-  String image;
+  final String title;
+  final String subtitle;
+  final String image;
 
   GenericCard({this.title, this.subtitle, this.image});
 

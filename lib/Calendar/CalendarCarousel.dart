@@ -4,11 +4,11 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel, WeekdayFormat;
 
 class CalendarCarouselOwn extends StatefulWidget {
-  PageController controllerCalendar;
-  Function(DateTime) calendarChange;
-  DateTime targetDateTime;
-  List<Event> events;
-  Function(DateTime) dayPressed;
+  final PageController controllerCalendar;
+  final Function(DateTime) calendarChange;
+  final DateTime targetDateTime;
+  final Map<DateTime,Event> events;
+  final Function(DateTime) dayPressed;
 
   CalendarCarouselOwn(
       {this.controllerCalendar,
@@ -114,17 +114,9 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
         bool isNextMonthDay,
         bool isThisMonthDay,
         DateTime day) {
-      bool haveDay = false;
-      Event event;
-      widget.events.forEach((e) {
-        if (e.dateTime.compareTo(day) == 0) {
-          haveDay = true;
-          event = e;
-        }
-      });
 
-      if (haveDay) {
-        return customEventsDay(event.status, day);
+      if (widget.events.containsKey(day)) {
+        return customEventsDay(widget.events[day].status, day);
       } else if (isNextMonthDay || isPrevMonthDay) {
         return widgetDay(
             colorRadius: Colors.transparent,

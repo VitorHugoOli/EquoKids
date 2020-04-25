@@ -13,32 +13,38 @@ class Calendar extends StatefulWidget {
   _CalendarState createState() => _CalendarState();
 }
 
-List<Event> mockUpEvents() {
-  List<Event> events = List<Event>();
-  events.add(Event(
-      dateTime: DateTime(2020, 4, 29),
-      motorDevelopment: 0,
-      socialDevelopment: 0,
-      selfCare: 0,
-      status: Status.scheduled));
-  events.add(Event(
-      dateTime: DateTime(2020, 4, 8),
-      motorDevelopment: 0,
-      socialDevelopment: 0,
-      selfCare: 0,
-      status: Status.InEvaluation));
-  events.add(Event(
-      dateTime: DateTime(2020, 4, 1),
-      motorDevelopment: 3,
-      socialDevelopment: 2,
-      selfCare: 4,
-      status: Status.rated));
+Map<DateTime, Event> mockUpEvents() {
+  Map<DateTime, Event> events = {
+    DateTime(2020, 4, 29): Event(
+        dateTime: DateTime(2020, 4, 29),
+        motorDevelopment: 0,
+        socialDevelopment: 0,
+        selfCare: 0,
+        status: Status.scheduled),
+    DateTime(2020, 4, 8): Event(
+        dateTime: DateTime(2020, 4, 8),
+        motorDevelopment: 0,
+        socialDevelopment: 0,
+        selfCare: 0,
+        status: Status.InEvaluation),
+    DateTime(2020, 4, 1): Event(
+        dateTime: DateTime(2020, 4, 1),
+        motorDevelopment: 3,
+        socialDevelopment: 2,
+        selfCare: 4,
+        status: Status.rated)
+  };
+
+  events.forEach((e, a) {
+    a.startTime = DateTime.parse("2012-02-27T${(e.day+13)%23}Z");
+    a.endTime = DateTime.parse("2012-02-27T${(e.day+14)%23}Z");
+  });
 
   return events;
 }
 
 class _CalendarState extends State<Calendar> {
-  List<Event> events = List<Event>();
+  Map<DateTime, Event> events = Map<DateTime, Event>();
 
   Event actualEvent = Event(
       dateTime: DateTime.now(),
@@ -63,6 +69,19 @@ class _CalendarState extends State<Calendar> {
     viewportFraction: 1.0,
   );
 
+  static Map<Status, dynamic> _bottomPageController(
+      size, actualEvent, events, setState) {
+    Schedule schedule = Schedule(
+        size: size, event: actualEvent, events: events, setter: setState);
+    Avaliar avaliar = Avaliar(size: size, event: actualEvent);
+    return {
+      Status.none: schedule,
+      Status.scheduled: schedule,
+      Status.InEvaluation: avaliar,
+      Status.rated: avaliar,
+    };
+  }
+
   @override
   void initState() {
     super.initState();
@@ -72,11 +91,11 @@ class _CalendarState extends State<Calendar> {
 
   @override
   void dispose() {
-//    _controller.dispose();
     /*
       Não se faz necessario uma vez que este não é uma pagina é só é inicializado uma unica vez.
     */
-    super.dispose();
+//    _controller.dispose();
+//    super.dispose();
   }
 
   ///Scroll Control
@@ -103,35 +122,23 @@ class _CalendarState extends State<Calendar> {
   }
 
   dayPressed(DateTime date) {
-    var haveEvent = true;
-
-    events.forEach((e) {
-      if (e.dateTime.compareTo(date) == 0) {
-        haveEvent = false;
-        actualEvent = e;
-      }
-    });
-
-    if (haveEvent)
+    if (events.containsKey(date)) {
+      actualEvent = events[date];
+    } else {
       actualEvent = Event(
           dateTime: date,
           motorDevelopment: 0,
           socialDevelopment: 0,
           selfCare: 0,
           status: Status.none);
+    }
+
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    Map<Status, dynamic> _BottonPageController = {
-      Status.none : BottomSchedule(size: size, event: actualEvent),
-      Status.scheduled : BottomSchedule(size: size, event: actualEvent),
-      Status.InEvaluation : Avaliar(size: size, event: actualEvent),
-      Status.rated : Avaliar(size: size, event: actualEvent),
-    };
 
     Widget monthListStyle(Size size, String month) {
       TextStyle sty;
@@ -192,7 +199,8 @@ class _CalendarState extends State<Calendar> {
               ],
             ),
           ),
-          _BottonPageController[actualEvent.status],
+          _bottomPageController(
+              size, actualEvent, events, setState)[actualEvent.status],
         ],
       ),
     );

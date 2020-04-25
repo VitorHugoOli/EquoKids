@@ -1,19 +1,18 @@
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class BuildPage extends StatelessWidget {
-  BuildPage({this.Titulopagina, this.pagina});
+  final String titulopagina;
+  final bool pagina;
 
-  String Titulopagina;
-  bool pagina;
+  BuildPage({this.titulopagina, this.pagina});
 
   body(context) {
     return ListView(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(top:50),
+          margin: EdgeInsets.only(top: 50),
           child: Column(
             children: <Widget>[
               Center(
@@ -31,7 +30,6 @@ class BuildPage extends StatelessWidget {
                       );
                     },
                   ),
-
                 ),
               ),
               Text(

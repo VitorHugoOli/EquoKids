@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+/*
 Size size;
+
 
 _textBox() {
   return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
@@ -81,3 +80,4 @@ _socialHeader(bool isInEvaluation) {
     ),
   );
 }
+*/
