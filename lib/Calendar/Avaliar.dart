@@ -1,12 +1,14 @@
 import 'package:EquoKids/Calendar/Event.dart';
+import 'package:EquoKids/Utils/DropBox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Avaliar extends StatelessWidget {
-  Size size;
-  Event event;
+  final Size size;
+  final Event event;
 
   Avaliar({@required this.size, @required this.event});
 
@@ -51,7 +53,7 @@ class Avaliar extends StatelessWidget {
     return Row(
       children: <Widget>[
         Text(
-          text,
+          text + ":",
           style: TextStyle(fontSize: 24, color: Colors.white),
         ),
         Container(
@@ -61,10 +63,18 @@ class Avaliar extends StatelessWidget {
             left: 19,
             right: 12,
           ),
-          padding: EdgeInsets.only(left: 20),
+          padding: EdgeInsets.only(top: 14, left: 15),
           decoration: BoxDecoration(
               color: isInEvaluation ? Color(0xffF3DCCC) : Color(0xff8BE8F0),
               borderRadius: BorderRadius.all(Radius.circular(70))),
+          child: Text(
+            ("Até" == text
+                ? event.endTime.hour.toString()
+                : event.startTime.hour.toString()) + "hrs",
+            style: TextStyle(
+                color: isInEvaluation ? Color(0xffD68954) : Color(0xff1CA1AD),
+                fontSize: 20),
+          ),
         ),
       ],
     );
@@ -89,8 +99,8 @@ class Avaliar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          _timeBox("De:", isInEvaluation),
-          _timeBox("Até:", isInEvaluation),
+          _timeBox("De", isInEvaluation),
+          _timeBox("Até", isInEvaluation),
         ],
       ),
     );
@@ -126,7 +136,7 @@ class Avaliar extends StatelessWidget {
   _bigBox(String text, String rate, bool isInEvaluation) {
     return Container(
       width: size.width,
-      height: size.height * .14,
+//      height: size.height * .18,
       padding: EdgeInsets.only(
         left: 10,
         top: 12,
@@ -143,21 +153,23 @@ class Avaliar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            text,
-            maxLines: 2,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                fontFamily: "Raleway",
-                fontSize: 18,
-                color: isInEvaluation ? Color(0xffD68954) : Color(0xff4BB4BD),
-                fontWeight: FontWeight.w600),
+          Container(
+            margin: EdgeInsets.only(bottom: 12),
+            child: Text(
+              text,
+              maxLines: 2,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontFamily: "Raleway",
+                  fontSize: 18,
+                  color: isInEvaluation ? Color(0xffD68954) : Color(0xff4BB4BD),
+                  fontWeight: FontWeight.w600),
+            ),
           ),
           _rating(rate),
         ],
       ),
     );
-
   }
 
   _card1(bool isInEvaluation) {
