@@ -13,6 +13,8 @@ class Event {
 
   Event({
     @required this.dateTime,
+    @required this.startTime,
+    @required this.endTime,
     @required this.motorDevelopment,
     @required this.socialDevelopment,
     @required this.selfCare,

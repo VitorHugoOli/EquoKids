@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:EquoKids/Calendar/CalendarPage.dart';
 import 'package:EquoKids/EquinoTerapia/Equinoterapia.dart';
 import 'package:EquoKids/Graphics/GraphicsPage.dart';
@@ -22,6 +24,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   String title = "";
   IconData iconData = FontAwesomeIcons.hatCowboySide;
 
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +43,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
         color: Color(0xFFD98859),
       ),
       title: Text(
-        "Equinoterapia",
+        "Equoterapia",
         style: TextStyle(
+          fontSize: window.physicalSize.height*0.0085
         ),
       ),
     ),
@@ -55,7 +59,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         HatCowBoy.hatCowBoyOutline,
         color: Color(0xFFD98859),
       ),
-      title: Text("Equinoterapia"),
+      title: Text("Equoterapia"),
     ),
     BubbleBottomBarItem(
         backgroundColor: Color(0xFFD98859),
@@ -158,7 +162,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           int index = 0;
           for (int i = 0; i < barItens.length; i++) {
             if (barItens[i].title.toString() ==
-                Text("Equinoterapia").toString()) index = i;
+                Text("Equoterapia").toString()) index = i;
           }
           body = mapPag[0]["body"];
           title = mapPag[0]["title"];

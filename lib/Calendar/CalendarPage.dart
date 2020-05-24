@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:EquoKids/Calendar/Avaliar.dart';
 import 'package:EquoKids/Calendar/Event.dart';
 import 'package:EquoKids/Calendar/schedule.dart';
@@ -17,27 +20,37 @@ Map<DateTime, Event> mockUpEvents() {
   Map<DateTime, Event> events = {
     DateTime(2020, 4, 29): Event(
         dateTime: DateTime(2020, 4, 29),
+        startTime: DateTime.parse("2012-02-27T${(29 + 13) % 23}Z"),
+        endTime: DateTime.parse("2012-02-27T${(29 + 14) % 23}Z"),
         motorDevelopment: 0,
         socialDevelopment: 0,
         selfCare: 0,
         status: Status.scheduled),
     DateTime(2020, 4, 8): Event(
         dateTime: DateTime(2020, 4, 8),
+        startTime: DateTime.parse("2012-02-27T${(8 + 13) % 23}Z"),
+        endTime: DateTime.parse("2012-02-27T${(8 + 14) % 23}Z"),
         motorDevelopment: 0,
         socialDevelopment: 0,
         selfCare: 0,
         status: Status.InEvaluation),
     DateTime(2020, 4, 1): Event(
         dateTime: DateTime(2020, 4, 1),
+        startTime: DateTime.parse("2012-02-27T${(1 + 13) % 23}Z"),
+        endTime: DateTime.parse("2012-02-27T${(1 + 14) % 23}Z"),
         motorDevelopment: 3,
         socialDevelopment: 2,
         selfCare: 4,
         status: Status.rated)
   };
 
-  events.forEach((e, a) {
-    a.startTime = DateTime.parse("2012-02-27T${(e.day + 13) % 23}Z");
-    a.endTime = DateTime.parse("2012-02-27T${(e.day + 14) % 23}Z");
+  events.forEach((date, value) {
+    print(date.toIso8601String());
+    print(value.endTime.compareTo(DateTime.now()));
+    if ((value.endTime.compareTo(DateTime.now()) < 0) &&
+        (value.status == Status.scheduled)) {
+      value.status = Status.InEvaluation;
+    }
   });
 
   return events;
@@ -45,28 +58,31 @@ Map<DateTime, Event> mockUpEvents() {
 
 class _CalendarState extends State<Calendar> {
   Map<DateTime, Event> events = Map<DateTime, Event>();
+  static final actualDay = DateTime.now();
 
-  static final actualday = DateTime.now();
   Event actualEvent = Event(
       dateTime: DateTime.now(),
+      startTime: null,
+      endTime: null,
       motorDevelopment: 0,
       socialDevelopment: 0,
       selfCare: 0,
       status: Status.none);
 
-  String _currentMonth = DateFormat.MMMM("pt_BR").format(DateTime.now());
-  DateTime _targetDateTime = actualday;
-  int oldCurrentPageCalendar = DateTime.now().month - 2;
-  int oldCurrentPage = actualday.month - 1;
+  String _currentMonth = DateFormat.MMMM("pt_BR").format(actualDay);
+  DateTime _targetDateTime = actualDay;
+  int oldCurrentPage =
+      12 + (actualDay.month - actualDay.subtract(Duration(days: 360)).month);
 
   static PageController _controller = PageController(
-    initialPage: actualday.month - 1,
+    initialPage:
+        12 + (actualDay.month - actualDay.subtract(Duration(days: 360)).month),
     viewportFraction: 0.8,
   );
 
   static PageController _controllerCalendar = PageController(
     initialPage:
-        12 + (actualday.month - actualday.subtract(Duration(days: 360)).month),
+        12 + (actualDay.month - actualDay.subtract(Duration(days: 360)).month),
     keepPage: true,
     viewportFraction: 1.0,
   );
@@ -75,7 +91,11 @@ class _CalendarState extends State<Calendar> {
       size, actualEvent, events, setState) {
     Schedule schedule = Schedule(
         size: size, event: actualEvent, events: events, setter: setState);
-    Avaliar avaliar = Avaliar(size: size, event: actualEvent,setter: setState,);
+    Avaliar avaliar = Avaliar(
+      size: size,
+      event: actualEvent,
+      setter: setState,
+    );
     return {
       Status.none: schedule,
       Status.scheduled: schedule,
@@ -84,11 +104,54 @@ class _CalendarState extends State<Calendar> {
     };
   }
 
+  static Map<int, String> months = {
+    1: "Janeiro",
+    2: "Fevereiro",
+    3: "Março",
+    4: "Abril",
+    5: "Maio",
+    6: "Junho",
+    7: "Julho",
+    8: "Agosto",
+    9: "Setembro",
+    10: "Outubro",
+    11: "Novembro",
+    12: "Dezembro",
+  };
+
+  monthList(size) {
+    List<Widget> monthListPast = List<Widget>();
+    List<Widget> monthListFuture = List<Widget>();
+    int firstMonth = actualDay.subtract(Duration(days: 360)).month;
+    int lastMonth = actualDay.add(Duration(days: 360)).month;
+    for (int i = firstMonth; i <= 12; i++) {
+      monthListPast.add(monthListStyle(size, months[i]));
+    }
+    for (int i = 1; i <= lastMonth; i++) {
+      monthListFuture.add(monthListStyle(size, months[i]));
+    }
+
+    return {
+      "past": monthListPast,
+      "future": monthListFuture,
+    };
+  }
+
   @override
   void initState() {
     super.initState();
     events = mockUpEvents();
     _controller.addListener(_scrollListener);
+
+    Timer.periodic(Duration(minutes: 1), (timer) {
+      events.forEach((date, value) {
+        if ((value.endTime.compareTo(actualDay) < 0) &&
+            (value.status == Status.scheduled)) {
+          value.status = Status.InEvaluation;
+          setState(() {});
+        }
+      });
+    });
   }
 
   @override
@@ -104,12 +167,11 @@ class _CalendarState extends State<Calendar> {
   _scrollListener() async {
     double current = _controller.page;
     if ((current - current.toInt()) == 0) {
-      if (oldCurrentPageCalendar != _controller.page) {
-        print(_controller.page + 9);
-        _controllerCalendar.animateToPage((_controller.page + 9).toInt(),
-            duration: Duration(milliseconds: 100), curve: Curves.linear);
-        setState(() {});
-      }
+      print("controller ${_controller.page}");
+      oldCurrentPage = _targetDateTime.month;
+      _controllerCalendar.animateToPage((_controller.page).toInt(),
+          duration: Duration(milliseconds: 100), curve: Curves.linear);
+      setState(() {});
     }
   }
 
@@ -117,8 +179,7 @@ class _CalendarState extends State<Calendar> {
     this.setState(() {
       _targetDateTime = date;
       _currentMonth = DateFormat.MMMM("pt_BR").format(_targetDateTime);
-      oldCurrentPageCalendar = _targetDateTime.month - 1;
-      _controller.animateToPage(_targetDateTime.month - 1,
+      _controller.animateToPage(_controllerCalendar.page.round(),
           duration: Duration(milliseconds: 225), curve: Curves.easeInToLinear);
     });
   }
@@ -129,6 +190,8 @@ class _CalendarState extends State<Calendar> {
     } else {
       actualEvent = Event(
           dateTime: date,
+          startTime: null,
+          endTime: null,
           motorDevelopment: 0,
           socialDevelopment: 0,
           selfCare: 0,
@@ -138,30 +201,30 @@ class _CalendarState extends State<Calendar> {
     setState(() {});
   }
 
+  monthListStyle(Size size, String month) {
+    TextStyle sty;
+    _currentMonth.toLowerCase() == month.toLowerCase()
+        ? sty = TextStyle(
+            fontSize: 48.0,
+            fontFamily: "Raleway",
+            color: Color(0xff1CA1AD),
+            fontWeight: FontWeight.w700,
+          )
+        : sty = TextStyle(
+            fontSize: 48.0,
+            fontFamily: "Raleway",
+            color: Color.fromRGBO(28, 161, 173, 0.45),
+            fontWeight: FontWeight.w700,
+          );
+
+    return Container(
+      child: Text(month, style: sty),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    Widget monthListStyle(Size size, String month) {
-      TextStyle sty;
-      _currentMonth.toLowerCase() == month.toLowerCase()
-          ? sty = TextStyle(
-              fontSize: 48.0,
-              fontFamily: "Raleway",
-              color: Color(0xff1CA1AD),
-              fontWeight: FontWeight.w700,
-            )
-          : sty = TextStyle(
-              fontSize: 48.0,
-              fontFamily: "Raleway",
-              color: Color.fromRGBO(28, 161, 173, 0.45),
-              fontWeight: FontWeight.w700,
-            );
-
-      return Container(
-        child: Text(month, style: sty),
-      );
-    }
 
     return SingleChildScrollView(
       child: Column(
@@ -176,6 +239,7 @@ class _CalendarState extends State<Calendar> {
                   child: PageView(
                     controller: _controller,
                     children: <Widget>[
+                      ...monthList(size)["past"],
                       monthListStyle(size, "Janeiro"),
                       monthListStyle(size, "Fevereiro"),
                       monthListStyle(size, "Março"),
@@ -188,6 +252,7 @@ class _CalendarState extends State<Calendar> {
                       monthListStyle(size, "Outubro"),
                       monthListStyle(size, "Novembro"),
                       monthListStyle(size, "Dezembro"),
+                      ...monthList(size)["future"],
                     ],
                   ),
                 ),

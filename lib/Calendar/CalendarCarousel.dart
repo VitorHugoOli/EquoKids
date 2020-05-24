@@ -156,7 +156,7 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
       weekDayFormat: WeekdayFormat.standaloneShort,
       firstDayOfWeek: 0,
       showHeader: false,
-      height: size.height*0.35,
+      height: size.height*0.4,
       childAspectRatio: 1.34,
       selectedDateTime: _currentDate,
       markedDateMoreShowTotal: true,

@@ -52,6 +52,15 @@ class _DropBoxInputState extends State<DropBoxInput> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    DateTime timeSet = DateTime.parse(
+        "${widget.event.dateTime.toIso8601String().split("T")[0]}"
+        "T"
+        "${dropdownValue.split("hrs")[0]}Z");
+    widget.timeType == "end"
+        ? widget.event.endTime = timeSet
+        : widget.event.startTime = timeSet;
+
     return Theme(
       data: ThemeData(
         canvasColor: Color(0xffF3DCCC),
@@ -60,13 +69,13 @@ class _DropBoxInputState extends State<DropBoxInput> {
         value: dropdownValue,
         elevation: 16,
         style: TextStyle(color: Colors.white),
+        underline: Container(),
         iconSize: 0,
         onChanged: (String newValue) {
           setState(() {
             dropdownValue = newValue;
             DateTime timeSet =
                 DateTime.parse("2012-02-27T${dropdownValue.split("hrs")[0]}Z");
-            print(timeSet);
             widget.timeType == "end"
                 ? widget.event.endTime = timeSet
                 : widget.event.startTime = timeSet;
@@ -77,7 +86,8 @@ class _DropBoxInputState extends State<DropBoxInput> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(color: widget.color, fontSize: 20),
+              style:
+                  TextStyle(color: widget.color, fontSize: size.height * 0.03),
             ),
           );
         }).toList(),

@@ -81,7 +81,7 @@ class _BottomNavigationTile extends StatelessWidget {
   Widget build(BuildContext context) {
     int size;
     Widget label;
-    size = selected ? (flex * 1500.0).round() : (flex * 1000.0).round();
+    size = selected ? (flex * 1600.0).round() : (flex * 1000.0).round();
     label = _Label(
       animation: animation,
       item: item,

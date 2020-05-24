@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:EquoKids/Calendar/Event.dart';
 import 'package:EquoKids/Utils/DropBox.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,26 +22,7 @@ class Schedule extends StatefulWidget {
 }
 
 class _ScheduleState extends State<Schedule> {
-//  _header() {
-//    return Container(
-//      width: widget.size.width,
-//      height: 60,
-//      padding: EdgeInsets.only(left: 18, top: 12),
-//      decoration: BoxDecoration(
-//          color: Color(0xffF3DCCC),
-//          borderRadius: BorderRadius.only(
-//              topLeft: Radius.circular(16), topRight: Radius.circular(16))),
-//      child: Text(
-//        "Agendar",
-//        textAlign: TextAlign.left,
-//        style: TextStyle(
-//            fontFamily: "Comfortaa",
-//            fontSize: 30,
-//            color: Color(0xffD68954),
-//            fontWeight: FontWeight.bold),
-//      ),
-//    );
-//  }
+
 
   _header(bool isInNone, Size size) {
     return Column(
@@ -84,7 +67,7 @@ class _ScheduleState extends State<Schedule> {
             left: 19,
             right: 12,
           ),
-          padding: EdgeInsets.only(left: 15),
+          padding: EdgeInsets.only(left: window.physicalSize.height * 0.008),
           decoration: BoxDecoration(
               color: Color(0xffF3DCCC),
               borderRadius: BorderRadius.all(Radius.circular(70))),
@@ -119,6 +102,48 @@ class _ScheduleState extends State<Schedule> {
     );
   }
 
+  RaisedButton buttons(isInNone) {
+    RaisedButton buildButtons(
+        {Color color, Color colorText, String text, Function onPressed}) {
+      return RaisedButton(
+        shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(18.0)),
+        color: color,
+        onPressed: () {
+          widget.setter(onPressed);
+        },
+        child: Text(
+          text,
+          style: TextStyle(color: colorText),
+        ),
+      );
+    }
+
+    if (isInNone) {
+      return buildButtons(
+        color: Color(0xffD68954),
+        text: "Agendar",
+        colorText: Colors.white,
+        onPressed: () {
+          widget.event.status = Status.scheduled;
+          print(widget.event.startTime);
+          print(widget.event.endTime);
+          widget.events[widget.event.dateTime] = widget.event;
+        },
+      );
+    } else {
+      return buildButtons(
+        color: Colors.white,
+        text: "Cancelar Agendamento",
+        colorText: Colors.black,
+        onPressed: () {
+          widget.event.status = Status.none;
+          widget.events.remove(widget.event.dateTime);
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -130,49 +155,14 @@ class _ScheduleState extends State<Schedule> {
       _header(isInNone, size),
       Container(
         width: widget.size.width,
-        height: 300,
+        height: isInNone ? 200 : 600,
         decoration: BoxDecoration(
           color: isInNone ? Color(0xffFAE9DD) : Color(0xffE69E6D),
         ),
         padding: EdgeInsets.only(left: 18, top: 12, right: 18),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-            _schedule(),
-        RaisedButton(
-          shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(18.0)),
-          color: Color(0xffD68954),
-          onPressed: () {
-            widget.setter(() {
-              widget.event.status = Status.scheduled;
-              widget.events[widget.event.dateTime] = widget.event;
-            },);
-          },
-          child: Text(
-            "Agendar",
-            style: TextStyle(
-                color: Colors.white
-            ),
-          ),
-        ),
-              RaisedButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(18.0)),
-                color: Colors.white,
-                onPressed: () {
-                  widget.setter(() {
-                    widget.event.status = Status.none;
-                  },);
-                },
-                child: Text(
-                  "Cancelar Agendamento",
-                  style: TextStyle(
-                      color: Colors.black54
-                  ),
-                ),
-              )
-          ],
+          children: <Widget>[_schedule(), buttons(isInNone)],
         ),
       ),
     ]);
