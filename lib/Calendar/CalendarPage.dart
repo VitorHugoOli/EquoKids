@@ -19,6 +19,30 @@ class Calendar extends StatefulWidget {
 final random = new Random();
 
 Map<DateTime, Event> events = {
+  DateTime(2020, 1, 5): Event(
+      dateTime: DateTime(2020, 1, 5),
+      startTime: DateTime.parse("2012-02-27T${(1 + 11) % 23}Z"),
+      endTime: DateTime.parse("2012-02-27T${(1 + 12) % 23}Z"),
+      motorDevelopment: random.nextInt(4)+1,
+      socialDevelopment: random.nextInt(4)+1,
+      selfCare: random.nextInt(4)+1,
+      status: Status.rated),
+  DateTime(2020, 1, 15): Event(
+      dateTime: DateTime(2020, 1, 15),
+      startTime: DateTime.parse("2012-02-27T${(1 + 11) % 23}Z"),
+      endTime: DateTime.parse("2012-02-27T${(1 + 12) % 23}Z"),
+      motorDevelopment: random.nextInt(4)+1,
+      socialDevelopment: random.nextInt(4)+1,
+      selfCare: random.nextInt(4)+1,
+      status: Status.rated),
+  DateTime(2020, 1, 20): Event(
+      dateTime: DateTime(2020, 1, 5),
+      startTime: DateTime.parse("2012-02-27T${(1 + 11) % 23}Z"),
+      endTime: DateTime.parse("2012-02-27T${(1 + 12) % 23}Z"),
+      motorDevelopment: random.nextInt(4)+1,
+      socialDevelopment: random.nextInt(4)+1,
+      selfCare: random.nextInt(4)+1,
+      status: Status.rated),
   DateTime(2020, 2, 5): Event(
       dateTime: DateTime(2020, 2, 5),
       startTime: DateTime.parse("2012-02-27T${(1 + 11) % 23}Z"),

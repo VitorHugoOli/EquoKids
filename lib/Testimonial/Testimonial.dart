@@ -84,15 +84,15 @@ class _TestimonialState extends State<Testimonial> {
     }
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (message.length == 0) {
-      _retriveData();
-    } else {
-      messages = message;
-    }
-  }
+//  @override
+//  void didChangeDependencies() {
+//    super.didChangeDependencies();
+//    if (message.length == 0) {
+//      _retriveData();
+//    } else {
+//      messages = message;
+//    }
+//  }
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -317,6 +317,7 @@ class _TestimonialState extends State<Testimonial> {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: messages.length,
+            reverse: true,
             itemBuilder: (context, i) {
               var message = messages[i];
               return Card(
