@@ -1,9 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 
 class Message extends Object{
   DateTime datePublisher;
   String messenger;
-  String linkImage;
+  Uint8List linkImage;
   String uuidUser;
   int Likes = 0;
 

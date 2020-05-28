@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:EquoKids/Calendar/Avaliar.dart';
@@ -15,38 +16,71 @@ class Calendar extends StatefulWidget {
   @override
   _CalendarState createState() => _CalendarState();
 }
+final random = new Random();
+
+Map<DateTime, Event> events = {
+  DateTime(2020, 2, 5): Event(
+      dateTime: DateTime(2020, 2, 5),
+      startTime: DateTime.parse("2012-02-27T${(1 + 11) % 23}Z"),
+      endTime: DateTime.parse("2012-02-27T${(1 + 12) % 23}Z"),
+      motorDevelopment: random.nextInt(4)+1,
+      socialDevelopment: random.nextInt(4)+1,
+      selfCare: random.nextInt(4)+1,
+      status: Status.rated),
+  DateTime(2020, 2, 15): Event(
+      dateTime: DateTime(2020, 2, 15),
+      startTime: DateTime.parse("2012-02-27T${(1 + 11) % 23}Z"),
+      endTime: DateTime.parse("2012-02-27T${(1 + 12) % 23}Z"),
+      motorDevelopment: random.nextInt(4)+1,
+      socialDevelopment: random.nextInt(4)+1,
+      selfCare: random.nextInt(4)+1,
+      status: Status.rated),
+  DateTime(2020, 3, 5): Event(
+      dateTime: DateTime(2020, 3, 5),
+      startTime: DateTime.parse("2012-02-27T${(1 + 11) % 23}Z"),
+      endTime: DateTime.parse("2012-02-27T${(1 + 12) % 23}Z"),
+      motorDevelopment: random.nextInt(4)+1,
+      socialDevelopment: random.nextInt(4)+1,
+      selfCare: random.nextInt(4)+1,
+      status: Status.rated),
+  DateTime(2020, 3, 15): Event(
+      dateTime: DateTime(2020, 3, 15),
+      startTime: DateTime.parse("2012-02-27T${(1 + 11) % 23}Z"),
+      endTime: DateTime.parse("2012-02-27T${(1 + 12) % 23}Z"),
+      motorDevelopment: random.nextInt(4)+1,
+      socialDevelopment: random.nextInt(4)+1,
+      selfCare: random.nextInt(4)+1,
+      status: Status.rated),
+  DateTime(2020, 4, 29): Event(
+      dateTime: DateTime(2020, 4, 29),
+      startTime: DateTime.parse("2012-02-27T${(29 + 13) % 23}Z"),
+      endTime: DateTime.parse("2012-02-27T${(29 + 14) % 23}Z"),
+      motorDevelopment: 0,
+      socialDevelopment: 0,
+      selfCare: 0,
+      status: Status.scheduled),
+  DateTime(2020, 4, 8): Event(
+      dateTime: DateTime(2020, 4, 8),
+      startTime: DateTime.parse("2012-02-27T${(8 + 13) % 23}Z"),
+      endTime: DateTime.parse("2012-02-27T${(8 + 14) % 23}Z"),
+      motorDevelopment: 0,
+      socialDevelopment: 0,
+      selfCare: 0,
+      status: Status.InEvaluation),
+  DateTime(2020, 4, 1): Event(
+      dateTime: DateTime(2020, 4, 1),
+      startTime: DateTime.parse("2012-02-27T${(1 + 13) % 23}Z"),
+      endTime: DateTime.parse("2012-02-27T${(1 + 14) % 23}Z"),
+      motorDevelopment: 3,
+      socialDevelopment: 2,
+      selfCare: 4,
+      status: Status.rated),
+
+};
 
 Map<DateTime, Event> mockUpEvents() {
-  Map<DateTime, Event> events = {
-    DateTime(2020, 4, 29): Event(
-        dateTime: DateTime(2020, 4, 29),
-        startTime: DateTime.parse("2012-02-27T${(29 + 13) % 23}Z"),
-        endTime: DateTime.parse("2012-02-27T${(29 + 14) % 23}Z"),
-        motorDevelopment: 0,
-        socialDevelopment: 0,
-        selfCare: 0,
-        status: Status.scheduled),
-    DateTime(2020, 4, 8): Event(
-        dateTime: DateTime(2020, 4, 8),
-        startTime: DateTime.parse("2012-02-27T${(8 + 13) % 23}Z"),
-        endTime: DateTime.parse("2012-02-27T${(8 + 14) % 23}Z"),
-        motorDevelopment: 0,
-        socialDevelopment: 0,
-        selfCare: 0,
-        status: Status.InEvaluation),
-    DateTime(2020, 4, 1): Event(
-        dateTime: DateTime(2020, 4, 1),
-        startTime: DateTime.parse("2012-02-27T${(1 + 13) % 23}Z"),
-        endTime: DateTime.parse("2012-02-27T${(1 + 14) % 23}Z"),
-        motorDevelopment: 3,
-        socialDevelopment: 2,
-        selfCare: 4,
-        status: Status.rated)
-  };
-
   events.forEach((date, value) {
-    print(date.toIso8601String());
-    print(value.endTime.compareTo(DateTime.now()));
+
     if ((value.endTime.compareTo(DateTime.now()) < 0) &&
         (value.status == Status.scheduled)) {
       value.status = Status.InEvaluation;
@@ -160,14 +194,13 @@ class _CalendarState extends State<Calendar> {
       Não se faz necessario uma vez que este não é uma pagina é só é inicializado uma unica vez.
     */
 //    _controller.dispose();
-//    super.dispose();
+    super.dispose();
   }
 
   ///Scroll Control
   _scrollListener() async {
     double current = _controller.page;
     if ((current - current.toInt()) == 0) {
-      print("controller ${_controller.page}");
       oldCurrentPage = _targetDateTime.month;
       _controllerCalendar.animateToPage((_controller.page).toInt(),
           duration: Duration(milliseconds: 100), curve: Curves.linear);

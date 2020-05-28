@@ -270,7 +270,6 @@ class _AvaliarState extends State<Avaliar> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print('Esse é o event.status: ${widget.event.status}');
     bool isInEvaluation = widget.event.status == Status.InEvaluation;
 
     return Column(children: [
