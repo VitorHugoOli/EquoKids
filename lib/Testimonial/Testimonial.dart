@@ -151,7 +151,7 @@ class _TestimonialState extends State<Testimonial> {
     return Container(
       margin: EdgeInsets.only(top: size.height * 0.039, left: 12, right: 12),
       padding: EdgeInsets.only(top: 45, left: 13, right: 13),
-      height: size.height * 0.30,
+      height: size.height * 0.32,
       width: size.width,
       decoration: BoxDecoration(
         color: Color(0xffF3DCCC),
