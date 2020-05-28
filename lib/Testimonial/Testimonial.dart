@@ -298,11 +298,12 @@ class _TestimonialState extends State<Testimonial> {
   _headComment(Size size) {
     return Container(
       margin: EdgeInsets.only(top: size.height * 0.025),
+      height: size.height*0.35,
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(child: _commentButtons(size)),
-          Positioned(bottom: 165, child: _commentInput(size)),
+          Positioned(bottom: size.height*0.25, child: _commentInput(size)),
         ],
       ),
     );

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:EquoKids/BBT_Modified/newDorpDownButton.dart';
 import 'package:EquoKids/Calendar/Event.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +89,7 @@ class _DropBoxInputState extends State<DropBoxInput> {
             child: Text(
               value,
               style:
-                  TextStyle(color: widget.color, fontSize: size.height * 0.03),
+                  TextStyle(color: widget.color, fontSize: 20),
             ),
           );
         }).toList(),
