@@ -155,7 +155,7 @@ class _ScheduleState extends State<Schedule> {
       _header(isInNone, size),
       Container(
         width: widget.size.width,
-        height: isInNone ? 200 : 600,
+        height: isInNone ? 280 : 600,
         decoration: BoxDecoration(
           color: isInNone ? Color(0xffFAE9DD) : Color(0xffE69E6D),
         ),

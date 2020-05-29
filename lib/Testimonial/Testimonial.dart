@@ -31,7 +31,7 @@ mockMessage() async {
   message.add({
     "message": Message(
         messenger:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin fringilla ex ac accumsan condimentum. Proin ultricies velit sed risus interdum, a congue tellus lacinia. Etiam fermentum dictum felis, sit amet condimentum quam tincidunt a.",
+            "Etiam fermentum dictum felis, sit amet condimentum quam tincidunt a.",
         datePublisher: DateTime(2020, 5, 2),
         linkImage: await getImageFileFromAssets('question1.jpg'),
         uuidUser: "1"),
@@ -150,7 +150,7 @@ class _TestimonialState extends State<Testimonial> {
   Container _commentButtons(Size size) {
     return Container(
       margin: EdgeInsets.only(top: size.height * 0.039, left: 12, right: 12),
-      padding: EdgeInsets.only(top: 45, left: 13, right: 13),
+      padding: EdgeInsets.only(top: 80, left: 13, right: 13),
       height: size.height * 0.32,
       width: size.width,
       decoration: BoxDecoration(

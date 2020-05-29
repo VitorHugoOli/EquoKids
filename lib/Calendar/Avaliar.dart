@@ -98,7 +98,7 @@ class _AvaliarState extends State<Avaliar> {
                 "hrs",
             style: TextStyle(
                 color: isInEvaluation ? Color(0xffD68954) : Color(0xff1CA1AD),
-                fontSize: widget.size.height * 0.03,
+                fontSize: 20,
                 fontWeight: FontWeight.bold),
           ),
         ),

@@ -5,7 +5,6 @@ import 'package:flutter/rendering.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'AreaChart.dart';
 
 class Graph extends StatefulWidget {
   @override
@@ -28,12 +27,11 @@ class _GraphState extends State<Graph> {
           Container(
             height: size.height * 0.06,
             width: size.width * 0.7,
-            padding: EdgeInsets.only(bottom: 4, right: 8),
+            padding: EdgeInsets.only(left:14,top:10,bottom: 10, right: 8),
             decoration: BoxDecoration(
                 color: Color(0xFFE69E6D),
                 borderRadius: BorderRadius.circular(8)),
-            child: Center(
-                child: Text(
+            child: Text(
               title,
               style: TextStyle(
                   fontFamily: "Comfortaa",
@@ -41,12 +39,12 @@ class _GraphState extends State<Graph> {
                   color: Color(0xffffffff),
                   fontWeight: FontWeight.w600),
               textAlign: TextAlign.left,
-            )),
+            ),
           ),
           Positioned(
             top: 35,
             child: Container(
-              height: size.height * (customSize - 0.1),
+              height: size.height * (customSize-0.06),
               width: size.width * 0.95,
               decoration: BoxDecoration(
                 color: Color(0xFFFFFFFF),
@@ -367,7 +365,7 @@ class _GraphState extends State<Graph> {
         child: Column(
           children: <Widget>[
             buildGenericCard(
-                size, "Desenvolvimento Mensal", buildTotalChart(size), 0.57),
+                size, "Desenvolvimento Mensal", buildTotalChart(size), 0.5),
             buildGenericCard(
                 size, "Mês Detalhado", buildPerTypeChart(size), 0.65),
           ],
