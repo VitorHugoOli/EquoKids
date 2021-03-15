@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:EquoKids/Calendar/Event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
@@ -156,8 +158,9 @@ class _CalendarCarouselOwnState extends State<CalendarCarouselOwn> {
       weekDayFormat: WeekdayFormat.standaloneShort,
       firstDayOfWeek: 0,
       showHeader: false,
-      height: size.height*0.3,
+      height: size.height*0.39,
       childAspectRatio: 1.34,
+      staticSixWeekFormat: true,
       selectedDateTime: _currentDate,
       markedDateMoreShowTotal: true,
       targetDateTime: widget.targetDateTime,

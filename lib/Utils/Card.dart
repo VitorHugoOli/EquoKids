@@ -5,6 +5,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 /// This is the stateless widget that the main application instantiates.
 class GenericCard extends StatelessWidget {
@@ -56,6 +57,7 @@ class GenericCard extends StatelessWidget {
                 ),
                 subtitle: Text(
                   subtitle,
+                  textAlign: TextAlign.justify,
                   style: TextStyle(
                     color: Color(0xff105A61),
                     fontFamily: "Raleway",

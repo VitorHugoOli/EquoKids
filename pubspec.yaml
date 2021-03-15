@@ -67,7 +67,6 @@ flutter:
         - asset: fonts/Comfortaa/static/Comfortaa-SemiBold.ttf
         - asset: fonts/Comfortaa/static/Comfortaa-Medium.ttf
         - asset: fonts/Comfortaa/static/Comfortaa-Regular.ttf
-
     - family: Raleway
       fonts:
         - asset: fonts/Raleway/Raleway-Regular.ttf
